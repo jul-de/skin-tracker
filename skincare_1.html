@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Skin">
+<title>Skin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ee;
+    --warm-white: #faf8f5;
+    --stone: #c4b8a8;
+    --clay: #a08878;
+    --bark: #6b5248;
+    --ink: #2d2420;
+    --pale-green: #d4ddd0;
+    --sage: #8fa688;
+    --blush: #e8cfc4;
+    --tret-color: #c4a882;
+    --azel-color: #a8c4b8;
+    --barrier-color: #d4c4e0;
+    --lactic-color: #e8dcc4;
+    --cycle-color: #e8c4c4;
+    --cycle-dark: #c49090;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'DM Mono',monospace; background:var(--cream); color:var(--ink); min-height:100dvh; overflow-x:hidden; }
+  .screen { display:none; flex-direction:column; min-height:100dvh; }
+  .screen.active { display:flex; }
+
+  /* HOME */
+  #home { background:var(--ink); color:var(--cream); padding:env(safe-area-inset-top,20px) 28px 32px; position:relative; overflow:hidden; }
+  #home::before { content:''; position:absolute; top:-60px; right:-60px; width:240px; height:240px; border-radius:50%; background:radial-gradient(circle,rgba(168,136,120,0.18) 0%,transparent 70%); pointer-events:none; }
+  .home-header { padding-top:20px; margin-bottom:8px; }
+  .home-header .eyebrow { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone); margin-bottom:6px; }
+  .home-header h1 { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; line-height:1; }
+  .home-header h1 em { font-style:italic; color:var(--tret-color); }
+  .date-chip { margin-top:10px; font-size:11px; color:var(--stone); letter-spacing:0.08em; }
+
+  /* Stab banner */
+  .stab-banner { margin:16px 0 0; background:rgba(196,168,130,0.1); border:1px solid rgba(196,168,130,0.22); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; }
+  .stab-ring { position:relative; width:44px; height:44px; flex-shrink:0; }
+  .stab-ring svg { transform:rotate(-90deg); }
+  .stab-ring-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--tret-color); }
+  .stab-info { flex:1; }
+  .stab-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone); margin-bottom:3px; }
+  .stab-status { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:300; color:var(--cream); line-height:1.3; }
+  .stab-btn { background:none; border:1px solid rgba(196,168,130,0.3); border-radius:8px; color:var(--tret-color); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; padding:6px 10px; cursor:pointer; white-space:nowrap; }
+
+  /* Cycle check-in */
+  .cycle-checkin { margin:12px 0 0; background:rgba(232,196,196,0.08); border:1px solid rgba(232,196,196,0.18); border-radius:12px; padding:14px 16px; }
+  .cycle-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--cycle-color); margin-bottom:10px; opacity:0.8; }
+  .cycle-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .cycle-chip { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.08em; padding:8px 14px; border-radius:20px; border:1px solid rgba(232,196,196,0.25); background:transparent; color:var(--stone); cursor:pointer; transition:all 0.15s; }
+  .cycle-chip.active { background:rgba(232,196,196,0.18); border-color:var(--cycle-color); color:var(--cycle-color); }
+
+  /* Tonight card */
+  .tonight-card { margin:14px 0 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:20px; }
+  .tonight-label { font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--stone); margin-bottom:10px; }
+  .tonight-type { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; line-height:1; margin-bottom:4px; }
+  .tonight-badge { display:inline-block; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; padding:4px 10px; border-radius:20px; margin-top:8px; }
+  .badge-tret { background:rgba(196,168,130,0.2); color:var(--tret-color); }
+  .badge-azel { background:rgba(168,196,184,0.2); color:var(--azel-color); }
+  .badge-barrier { background:rgba(212,196,224,0.2); color:var(--barrier-color); }
+  .badge-lactic { background:rgba(232,220,196,0.2); color:var(--lactic-color); }
+  .badge-am { background:rgba(212,221,208,0.2); color:var(--pale-green); }
+  .tonight-steps-preview { margin-top:14px; display:flex; flex-wrap:wrap; gap:6px; }
+  .step-pill { font-size:10px; color:var(--stone); background:rgba(255,255,255,0.06); border-radius:20px; padding:4px 10px; letter-spacing:0.05em; }
+
+  /* Session toggle */
+  .session-toggle { display:flex; background:rgba(255,255,255,0.07); border-radius:12px; padding:4px; margin-bottom:14px; gap:4px; }
+  .session-btn { flex:1; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; padding:10px; border:none; border-radius:9px; cursor:pointer; background:transparent; color:var(--stone); transition:all 0.2s; }
+  .session-btn.active { background:rgba(255,255,255,0.12); color:var(--cream); }
+  .start-btn { width:100%; padding:18px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; background:var(--cream); color:var(--ink); border:none; border-radius:14px; cursor:pointer; }
+  .start-btn:active { transform:scale(0.98); opacity:0.9; }
+  .home-nav { margin-top:auto; padding-top:16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .nav-dot-btn { background:none; border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--stone); padding:8px 0; }
+
+  /* ROUTINE */
+  #routine { background:var(--warm-white); }
+  .routine-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; background:var(--ink); color:var(--cream); }
+  .back-btn { background:none; border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; color:var(--stone); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:8px; padding:0; }
+  .routine-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; line-height:1; }
+  .routine-header .session-label { font-size:10px; color:var(--stone); letter-spacing:0.15em; text-transform:uppercase; margin-top:6px; }
+  .steps-list { padding:20px 24px; flex:1; overflow-y:auto; }
+  .step-item { display:flex; align-items:flex-start; gap:16px; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.06); cursor:pointer; min-height:56px; }
+  .step-item:last-child { border-bottom:none; }
+  .step-check { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--stone); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .step-item.done .step-check { background:var(--ink); border-color:var(--ink); }
+  .step-check-inner { width:8px; height:8px; border-radius:50%; background:var(--cream); opacity:0; transition:opacity 0.2s; }
+  .step-item.done .step-check-inner { opacity:1; }
+  .step-text { flex:1; }
+  .step-name { font-size:14px; font-weight:400; letter-spacing:0.02em; line-height:1.3; }
+  .step-note { font-size:11px; color:var(--clay); margin-top:4px; letter-spacing:0.02em; line-height:1.4; }
+  .step-item.done .step-name { text-decoration:line-through; opacity:0.4; }
+  .step-item.done .step-note { opacity:0.3; }
+  .complete-section { padding:16px 24px calc(env(safe-area-inset-bottom,16px) + 16px); background:var(--warm-white); border-top:1px solid rgba(0,0,0,0.06); }
+  .progress-bar-wrap { height:3px; background:rgba(0,0,0,0.08); border-radius:3px; margin-bottom:16px; overflow:hidden; }
+  .progress-bar-fill { height:100%; background:var(--ink); border-radius:3px; transition:width 0.4s ease; width:0%; }
+  .complete-btn { width:100%; padding:17px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; background:var(--ink); color:var(--cream); border:none; border-radius:14px; cursor:pointer; opacity:0.4; transition:all 0.15s; }
+  .complete-btn.ready { opacity:1; }
+  .complete-btn:active { transform:scale(0.98); }
+  .lactic-note { margin:0 24px 16px; background:rgba(232,220,196,0.3); border-radius:10px; padding:12px 14px; font-size:10px; letter-spacing:0.04em; color:var(--bark); line-height:1.6; border-left:2px solid var(--lactic-color); }
+
+  /* SCHEDULE */
+  #schedule { background:var(--cream); }
+  .schedule-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
+  .schedule-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
+  .schedule-header .sub { font-size:10px; color:var(--clay); letter-spacing:0.08em; margin-top:4px; }
+  .week-grid { padding:12px 24px; flex:1; overflow-y:auto; }
+  .day-row { display:grid; grid-template-columns:52px 1fr auto; gap:10px; align-items:center; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+  .day-row:last-child { border-bottom:none; }
+  .day-name { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--clay); }
+  .day-name.today { color:var(--ink); }
+  .day-right { display:flex; align-items:center; gap:8px; }
+  .night-select { font-family:'DM Mono',monospace; font-size:11px; padding:8px 10px; border:1px solid rgba(0,0,0,0.12); border-radius:8px; background:var(--warm-white); color:var(--ink); cursor:pointer; width:100%; appearance:none; -webkit-appearance:none; }
+  .done-dots { display:flex; flex-direction:column; gap:2px; align-items:center; font-size:8px; color:var(--stone); letter-spacing:0.04em; min-width:24px; }
+  .done-dot { font-size:8px; color:var(--stone); }
+  .done-dot.lit { color:var(--sage); }
+  /* Tappable circle */
+  .day-done-badge { width:34px; height:34px; border-radius:50%; border:1.5px solid var(--stone); display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--stone); cursor:pointer; background:transparent; flex-shrink:0; font-family:'DM Mono',monospace; transition:all 0.2s; padding:0; }
+  .day-done-badge.pm-done { background:var(--ink); border-color:var(--ink); color:var(--cream); }
+
+  /* LOG */
+  #log { background:var(--cream); }
+  .log-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
+  .log-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
+  .log-list { padding:12px 24px; flex:1; overflow-y:auto; }
+  .log-day-group { margin-bottom:20px; }
+  .log-day-header { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--clay); padding:8px 0 6px; border-bottom:1px solid rgba(0,0,0,0.06); margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+  .log-cycle-tags { display:flex; gap:5px; }
+  .log-cycle-tag { font-size:8px; letter-spacing:0.1em; padding:2px 7px; border-radius:10px; }
+  .tag-period { background:rgba(232,196,196,0.25); color:var(--cycle-dark); }
+  .tag-bumps { background:rgba(232,220,196,0.3); color:var(--bark); }
+  .log-entry { padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.04); display:grid; grid-template-columns:1fr auto; gap:8px; align-items:start; }
+  .log-entry:last-child { border-bottom:none; }
+  .log-type { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; }
+  .log-steps-done { font-size:10px; color:var(--clay); margin-top:3px; letter-spacing:0.03em; line-height:1.5; }
+  .log-session-badge { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; padding:4px 8px; border-radius:6px; background:rgba(0,0,0,0.05); color:var(--clay); }
+  .empty-log { text-align:center; padding:60px 24px; color:var(--stone); }
+  .empty-log p { font-size:13px; letter-spacing:0.05em; line-height:1.6; }
+
+  /* CYCLE SCREEN */
+  #cyclescreen { background:var(--cream); }
+  .cycle-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
+  .cycle-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
+  .cycle-header .sub { font-size:10px; color:var(--clay); letter-spacing:0.06em; margin-top:4px; line-height:1.5; }
+  .cycle-body { padding:20px 24px; flex:1; overflow-y:auto; }
+  .cycle-section { margin-bottom:28px; }
+  .cycle-section-title { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--clay); margin-bottom:12px; }
+  .big-toggle-row { display:flex; gap:10px; margin-bottom:14px; }
+  .big-toggle { flex:1; padding:18px 12px; border-radius:14px; border:1.5px solid rgba(0,0,0,0.1); background:var(--warm-white); cursor:pointer; text-align:center; transition:all 0.15s; font-family:'DM Mono',monospace; }
+  .big-toggle .toggle-icon { font-size:22px; margin-bottom:6px; }
+  .big-toggle .toggle-label { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--clay); }
+  .big-toggle.active-period { background:rgba(232,196,196,0.15); border-color:var(--cycle-dark); }
+  .big-toggle.active-period .toggle-label { color:var(--cycle-dark); }
+  .big-toggle.active-bumps { background:rgba(232,220,196,0.2); border-color:var(--bark); }
+  .big-toggle.active-bumps .toggle-label { color:var(--bark); }
+  .phase-insight { background:rgba(196,168,130,0.1); border:1px solid rgba(196,168,130,0.2); border-radius:14px; padding:18px; margin-bottom:20px; }
+  .phase-insight .insight-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--clay); margin-bottom:8px; }
+  .phase-insight .insight-text { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; line-height:1.4; color:var(--ink); }
+  .phase-insight .insight-sub { font-size:11px; color:var(--clay); margin-top:6px; line-height:1.5; }
+  .save-cycle-btn { width:100%; padding:16px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; background:var(--ink); color:var(--cream); border:none; border-radius:14px; cursor:pointer; }
+  .cycle-log-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:11px; }
+  .cycle-log-row:last-child { border-bottom:none; }
+  .cycle-log-date { color:var(--clay); letter-spacing:0.06em; flex:1; }
+  .cycle-log-icons { display:flex; gap:6px; font-size:13px; }
+
+  /* BOTTOM NAV */
+  .bottom-nav { display:flex; background:var(--ink); padding:12px 8px calc(env(safe-area-inset-bottom,12px) + 12px); gap:4px; }
+  .bnav-btn { flex:1; background:none; border:none; cursor:pointer; padding:8px 4px 4px; display:flex; flex-direction:column; align-items:center; gap:5px; }
+  .bnav-icon { width:20px; height:20px; opacity:0.4; transition:opacity 0.2s; }
+  .bnav-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:var(--stone); opacity:0.4; }
+  .bnav-btn.active .bnav-icon, .bnav-btn.active .bnav-label { opacity:1; }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; align-items:flex-end; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-sheet { background:var(--warm-white); border-radius:20px 20px 0 0; padding:24px 24px calc(env(safe-area-inset-bottom,20px) + 24px); width:100%; max-width:480px; }
+  .modal-title { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; margin-bottom:6px; }
+  .modal-sub { font-size:11px; color:var(--clay); line-height:1.5; margin-bottom:20px; }
+  .modal-btn-row { display:flex; gap:10px; }
+  .modal-btn { flex:1; padding:15px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; border-radius:12px; border:none; cursor:pointer; }
+  .modal-btn-primary { background:var(--ink); color:var(--cream); }
+  .modal-btn-secondary { background:rgba(0,0,0,0.07); color:var(--ink); }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:calc(env(safe-area-inset-bottom,20px) + 90px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--cream); font-size:11px; letter-spacing:0.08em; padding:12px 20px; border-radius:30px; opacity:0; transition:all 0.3s; pointer-events:none; white-space:nowrap; z-index:100; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="screen active" id="home">
+  <div class="home-header">
+    <div class="eyebrow">Your skin, simplified</div>
+    <h1>Good <em id="timeGreet">evening</em></h1>
+    <div class="date-chip" id="dateChip">—</div>
+  </div>
+
+  <div class="stab-banner">
+    <div class="stab-ring">
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(196,168,130,0.2)" stroke-width="3"/>
+        <circle cx="22" cy="22" r="18" fill="none" stroke="#c4a882" stroke-width="3"
+          stroke-dasharray="113.1" id="stabArc" stroke-dashoffset="113.1" stroke-linecap="round"/>
+      </svg>
+      <div class="stab-ring-text" id="stabRingText">—</div>
+    </div>
+    <div class="stab-info">
+      <div class="stab-label">Tret stability</div>
+      <div class="stab-status" id="stabStatus">—</div>
+    </div>
+    <button class="stab-btn" onclick="openStabModal()">Reset</button>
+  </div>
+
+  <div class="cycle-checkin">
+    <div class="cycle-label">Today's check-in</div>
+    <div class="cycle-row">
+      <button class="cycle-chip" id="homeChipPeriod" onclick="toggleHomeCycle('period')">🩸 Period</button>
+      <button class="cycle-chip" id="homeChipBumps" onclick="toggleHomeCycle('bumps')">⚡ Bumps</button>
+      <button class="cycle-chip" onclick="showScreen('cyclescreen')">Full log →</button>
+    </div>
+  </div>
+
+  <div class="tonight-card">
+    <div class="tonight-label">Tonight's routine</div>
+    <div class="tonight-type" id="tonightType">—</div>
+    <span class="tonight-badge" id="tonightBadge">—</span>
+    <div class="tonight-steps-preview" id="tonightStepsPreview"></div>
+  </div>
+
+  <div class="session-toggle">
+    <button class="session-btn" id="amBtn" onclick="setSession('am')">☀ Morning</button>
+    <button class="session-btn active" id="pmBtn" onclick="setSession('pm')">☽ Evening</button>
+  </div>
+
+  <button class="start-btn" onclick="startRoutine()">Start routine →</button>
+
+  <div class="home-nav">
+    <button class="nav-dot-btn" onclick="showScreen('schedule')">Schedule</button>
+    <button class="nav-dot-btn" onclick="showScreen('log')">History</button>
+    <button class="nav-dot-btn" onclick="showScreen('cyclescreen')">Cycle</button>
+  </div>
+</div>
+
+<!-- ROUTINE -->
+<div class="screen" id="routine">
+  <div class="routine-header">
+    <button class="back-btn" onclick="showScreen('home')">← back</button>
+    <h2 id="routineTitle">—</h2>
+    <div class="session-label" id="routineSessionLabel">—</div>
+  </div>
+  <div class="steps-list" id="stepsList"></div>
+  <div id="lacticNote" class="lactic-note" style="display:none">⚠ Lactic acid night — skip tret the night before and after. Use once every 2–3 weeks.</div>
+  <div class="complete-section">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <button class="complete-btn" id="completeBtn" onclick="markComplete()">Mark as done</button>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="screen" id="schedule">
+  <div class="schedule-header">
+    <h2>This week</h2>
+    <div class="sub">Change any night · tap ○ to mark PM done</div>
+  </div>
+  <div class="week-grid" id="weekGrid"></div>
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('home')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn active">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <span class="bnav-label">Schedule</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('log')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('cyclescreen')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <span class="bnav-label">Cycle</span>
+    </button>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="screen" id="log">
+  <div class="log-header"><h2>History</h2></div>
+  <div class="log-list" id="logList"></div>
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('home')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('schedule')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <span class="bnav-label">Schedule</span>
+    </button>
+    <button class="bnav-btn active">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('cyclescreen')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <span class="bnav-label">Cycle</span>
+    </button>
+  </div>
+</div>
+
+<!-- CYCLE -->
+<div class="screen" id="cyclescreen">
+  <div class="cycle-header">
+    <h2>Cycle log</h2>
+    <div class="sub">Tracking period + bumps to map luteal flares</div>
+  </div>
+  <div class="cycle-body">
+    <div class="cycle-section">
+      <div class="cycle-section-title">Today</div>
+      <div class="big-toggle-row">
+        <button class="big-toggle" id="cycleBtnPeriod" onclick="toggleCycle('period')">
+          <div class="toggle-icon">🩸</div>
+          <div class="toggle-label">On period</div>
+        </button>
+        <button class="big-toggle" id="cycleBtnBumps" onclick="toggleCycle('bumps')">
+          <div class="toggle-icon">⚡</div>
+          <div class="toggle-label">Bumps today</div>
+        </button>
+      </div>
+      <button class="save-cycle-btn" onclick="saveCycleDay()">Save today →</button>
+    </div>
+    <div class="phase-insight" id="phaseInsight" style="display:none"></div>
+    <div class="cycle-section">
+      <div class="cycle-section-title">Recent log</div>
+      <div id="cycleMiniLog"></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('home')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('schedule')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <span class="bnav-label">Schedule</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('log')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-btn active">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <span class="bnav-label">Cycle</span>
+    </button>
+  </div>
+</div>
+
+<!-- Stab reset modal -->
+<div class="modal-overlay" id="stabModal">
+  <div class="modal-sheet">
+    <div class="modal-title">Reset tret timer?</div>
+    <div class="modal-sub">Use this when you restart tretinoin after a break. The 4-week stability countdown restarts from today.</div>
+    <div class="modal-btn-row">
+      <button class="modal-btn modal-btn-secondary" onclick="closeStabModal()">Cancel</button>
+      <button class="modal-btn modal-btn-primary" onclick="resetStab()">Yes, restart</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ROUTINES = {
+  tret: {
+    label: 'Tret night', badge: 'badge-tret',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Urea moisturizer', note: 'Thin layer — tret sandwich base' },
+      { name: 'Tretinoin 0.1%', note: 'Pea-sized amount, avoid eye area' },
+      { name: 'Squalane', note: 'Optional — seal on top' },
+    ]
+  },
+  azel: {
+    label: 'Azelaic night', badge: 'badge-azel',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Azelaic acid', note: 'For redness, PIE, pigmentation' },
+      { name: 'Urea moisturizer', note: 'Lock it in' },
+    ]
+  },
+  barrier: {
+    label: 'Barrier night', badge: 'badge-barrier',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Urea moisturizer', note: 'Be generous' },
+      { name: 'Squalane', note: 'Optional — great for dry nights' },
+    ]
+  },
+  lactic: {
+    label: 'Lactic acid night', badge: 'badge-lactic',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Lactic acid', note: 'Once every 2–3 weeks only' },
+      { name: 'Urea moisturizer', note: 'Follow immediately' },
+    ]
+  },
+  am: {
+    label: 'Morning routine', badge: 'badge-am',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Azelaic acid', note: 'Anti-redness, pairs well with SPF' },
+      { name: 'Urea moisturizer', note: 'Wait a minute before next steps' },
+      { name: 'Squalane', note: 'Optional — 1–2 drops if dry, before SPF' },
+      { name: 'Mineral sunscreen', note: 'Every day — wait 10–15 min before makeup' },
+    ]
+  }
+};
+
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DEFAULT_SCHEDULE = ['tret','barrier','azel','tret','barrier','tret','azel'];
+const STAB_DAYS = 28;
+
+let state = {
+  session: 'pm',
+  checkedSteps: {},
+  currentType: null,
+  schedule: [...DEFAULT_SCHEDULE],
+  completedDays: {},
+  cycleLog: {},
+  tretStartDate: null,
+  todayCycle: { period: false, bumps: false },
+};
+
+try {
+  const saved = localStorage.getItem('skin_v2');
+  if (saved) {
+    const p = JSON.parse(saved);
+    if (p.schedule) state.schedule = p.schedule;
+    if (p.completedDays) state.completedDays = p.completedDays;
+    if (p.cycleLog) state.cycleLog = p.cycleLog;
+    if (p.tretStartDate) state.tretStartDate = p.tretStartDate;
+    const tk = todayKey();
+    if (p.cycleLog && p.cycleLog[tk]) state.todayCycle = { ...p.cycleLog[tk] };
+  }
+  if (!state.tretStartDate) { state.tretStartDate = todayKey(); persist(); }
+} catch(e) {}
+
+function persist() {
+  try { localStorage.setItem('skin_v2', JSON.stringify({ schedule: state.schedule, completedDays: state.completedDays, cycleLog: state.cycleLog, tretStartDate: state.tretStartDate })); } catch(e) {}
+}
+
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function dateKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function todayDayIndex() { const d = new Date().getDay(); return d === 0 ? 6 : d - 1; }
+function getTonightType() { return state.schedule[todayDayIndex()]; }
+
+function formatDate(k) {
+  return new Date(k + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function daysBetween(a, b) {
+  return Math.floor((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'home') renderHome();
+  if (id === 'schedule') renderSchedule();
+  if (id === 'log') renderLog();
+  if (id === 'cyclescreen') renderCycleScreen();
+  window.scrollTo(0, 0);
+}
+
+// HOME
+function setSession(s) {
+  state.session = s;
+  document.getElementById('amBtn').classList.toggle('active', s === 'am');
+  document.getElementById('pmBtn').classList.toggle('active', s === 'pm');
+  renderHome();
+}
+
+function renderHome() {
+  const h = new Date().getHours();
+  document.getElementById('timeGreet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  document.getElementById('dateChip').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  const type = state.session === 'am' ? 'am' : getTonightType();
+  const r = ROUTINES[type];
+  document.getElementById('tonightType').textContent = r.label;
+  const badge = document.getElementById('tonightBadge');
+  badge.className = 'tonight-badge ' + r.badge;
+  badge.textContent = type.toUpperCase();
+  document.getElementById('tonightStepsPreview').innerHTML = r.steps.map(s => `<span class="step-pill">${s.name}</span>`).join('');
+
+  renderStabBanner();
+  document.getElementById('homeChipPeriod').classList.toggle('active', !!state.todayCycle.period);
+  document.getElementById('homeChipBumps').classList.toggle('active', !!state.todayCycle.bumps);
+}
+
+function renderStabBanner() {
+  const elapsed = daysBetween(state.tretStartDate, todayKey());
+  const pct = Math.min(elapsed / STAB_DAYS, 1);
+  const circ = 113.1;
+  document.getElementById('stabArc').style.strokeDashoffset = circ - (pct * circ);
+  const wk = Math.min(Math.floor(elapsed / 7) + 1, 5);
+  document.getElementById('stabRingText').textContent = elapsed >= STAB_DAYS ? '✓' : `W${wk}`;
+  let status;
+  if (elapsed < 7) status = 'Week 1 — reintroducing tret';
+  else if (elapsed < 14) status = 'Week 2 — building tolerance';
+  else if (elapsed < 21) status = 'Week 3 — skin adjusting';
+  else if (elapsed < 28) status = 'Week 4 — almost stable';
+  else status = 'Stable ✓ Ready to add vitamin C';
+  document.getElementById('stabStatus').textContent = status;
+}
+
+function openStabModal() { document.getElementById('stabModal').classList.add('open'); }
+function closeStabModal() { document.getElementById('stabModal').classList.remove('open'); }
+function resetStab() {
+  state.tretStartDate = todayKey();
+  persist();
+  closeStabModal();
+  renderStabBanner();
+  showToast('Tret timer restarted ✓');
+}
+
+function toggleHomeCycle(field) {
+  state.todayCycle[field] = !state.todayCycle[field];
+  const tk = todayKey();
+  state.cycleLog[tk] = { ...state.cycleLog[tk] || {}, ...state.todayCycle };
+  persist();
+  renderHome();
+  showToast(state.todayCycle[field] ? (field === 'period' ? '🩸 Period logged' : '⚡ Bumps logged') : 'Removed');
+}
+
+// ROUTINE
+function startRoutine() {
+  state.currentType = state.session === 'am' ? 'am' : getTonightType();
+  state.checkedSteps = {};
+  const r = ROUTINES[state.currentType];
+  document.getElementById('routineTitle').textContent = r.label;
+  document.getElementById('routineSessionLabel').textContent = state.session === 'am' ? '☀ Morning session' : '☽ Evening session';
+  document.getElementById('lacticNote').style.display = state.currentType === 'lactic' ? 'block' : 'none';
+  renderSteps();
+  showScreen('routine');
+}
+
+function renderSteps() {
+  document.getElementById('stepsList').innerHTML = ROUTINES[state.currentType].steps.map((step, i) => `
+    <div class="step-item ${state.checkedSteps[i] ? 'done' : ''}" onclick="toggleStep(${i})">
+      <div class="step-check"><div class="step-check-inner"></div></div>
+      <div class="step-text">
+        <div class="step-name">${step.name}</div>
+        <div class="step-note">${step.note}</div>
+      </div>
+    </div>`).join('');
+  updateProgress();
+}
+
+function toggleStep(i) { state.checkedSteps[i] = !state.checkedSteps[i]; renderSteps(); }
+
+function updateProgress() {
+  const total = ROUTINES[state.currentType].steps.length;
+  const done = Object.values(state.checkedSteps).filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+  document.getElementById('completeBtn').classList.toggle('ready', done === total);
+}
+
+function markComplete() {
+  const r = ROUTINES[state.currentType];
+  if (Object.values(state.checkedSteps).filter(Boolean).length < r.steps.length) { showToast('Check off each step first ✓'); return; }
+  const key = todayKey();
+  if (!state.completedDays[key]) state.completedDays[key] = {};
+  state.completedDays[key][state.session] = {
+    type: state.currentType, label: r.label,
+    steps: r.steps.map(s => s.name),
+    time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+  };
+  persist();
+  showToast('Done ✓ Logged to history');
+  setTimeout(() => showScreen('home'), 1200);
+}
+
+// SCHEDULE
+function renderSchedule() {
+  const todayIdx = todayDayIndex();
+  document.getElementById('weekGrid').innerHTML = DAYS.map((day, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() + (i - todayIdx));
+    const dKey = dateKey(d);
+    const isToday = i === todayIdx;
+    const pmDone = !!state.completedDays[dKey]?.pm;
+    const amDone = !!state.completedDays[dKey]?.am;
+    return `
+    <div class="day-row">
+      <div class="day-name ${isToday ? 'today' : ''}">${isToday ? '→ ' : ''}${day}</div>
+      <select class="night-select" onchange="updateSchedule(${i}, this.value)">
+        ${['tret','azel','barrier','lactic'].map(t => `<option value="${t}" ${state.schedule[i]===t?'selected':''}>${ROUTINES[t].label}</option>`).join('')}
+      </select>
+      <div class="day-right">
+        <div class="done-dots">
+          <span class="done-dot ${amDone ? 'lit' : ''}">AM${amDone ? ' ✓' : ''}</span>
+          <span class="done-dot ${pmDone ? 'lit' : ''}">PM${pmDone ? ' ✓' : ''}</span>
+        </div>
+        <button class="day-done-badge ${pmDone ? 'pm-done' : ''}" onclick="toggleDayDone('${dKey}', ${i})">${pmDone ? '✓' : ''}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDayDone(dKey, schedIdx) {
+  if (!state.completedDays[dKey]) state.completedDays[dKey] = {};
+  if (state.completedDays[dKey].pm) {
+    delete state.completedDays[dKey].pm;
+    showToast('PM removed');
+  } else {
+    const type = state.schedule[schedIdx] || 'barrier';
+    state.completedDays[dKey].pm = { type, label: ROUTINES[type].label, steps: ROUTINES[type].steps.map(s => s.name), time: '—' };
+    showToast('PM logged ✓');
+  }
+  persist();
+  renderSchedule();
+}
+
+function updateSchedule(idx, val) { state.schedule[idx] = val; persist(); renderHome(); }
+
+// LOG
+function renderLog() {
+  const list = document.getElementById('logList');
+  const allKeys = new Set([...Object.keys(state.completedDays), ...Object.keys(state.cycleLog)]);
+  const keys = [...allKeys].sort().reverse();
+  if (!keys.length) { list.innerHTML = `<div class="empty-log"><p>No entries yet.<br>Complete your first routine<br>to see it here.</p></div>`; return; }
+  list.innerHTML = keys.map(key => {
+    const day = state.completedDays[key] || {};
+    const cycle = state.cycleLog[key] || {};
+    if (!day.am && !day.pm && !cycle.period && !cycle.bumps) return '';
+    let cycleTags = '';
+    if (cycle.period) cycleTags += `<span class="log-cycle-tag tag-period">🩸 period</span>`;
+    if (cycle.bumps) cycleTags += `<span class="log-cycle-tag tag-bumps">⚡ bumps</span>`;
+    let entries = '';
+    ['am','pm'].forEach(sess => {
+      if (!day[sess]) return;
+      const e = day[sess];
+      entries += `<div class="log-entry"><div><div class="log-type">${e.label}</div><div class="log-steps-done">${e.steps.join(' · ')}${e.time !== '—' ? ' · ' + e.time : ''}</div></div><div class="log-session-badge">${sess.toUpperCase()}</div></div>`;
+    });
+    return `<div class="log-day-group"><div class="log-day-header"><span>${formatDate(key)}</span><div class="log-cycle-tags">${cycleTags}</div></div>${entries || '<div style="font-size:11px;color:var(--stone);padding:8px 0;">No routine logged</div>'}</div>`;
+  }).join('');
+}
+
+// CYCLE SCREEN
+function renderCycleScreen() {
+  document.getElementById('cycleBtnPeriod').className = 'big-toggle' + (state.todayCycle.period ? ' active-period' : '');
+  document.getElementById('cycleBtnBumps').className = 'big-toggle' + (state.todayCycle.bumps ? ' active-bumps' : '');
+  renderPhaseInsight();
+
+  const mini = document.getElementById('cycleMiniLog');
+  const rows = [];
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    const c = state.cycleLog[k];
+    if (!c && i > 0) continue;
+    const icons = [];
+    if (c?.period) icons.push('🩸');
+    if (c?.bumps) icons.push('⚡');
+    rows.push(`<div class="cycle-log-row"><span class="cycle-log-date">${i === 0 ? 'Today' : formatDate(k)}</span><span class="cycle-log-icons">${icons.length ? icons.join(' ') : '<span style="color:var(--stone);font-size:10px;">—</span>'}</span></div>`);
+  }
+  mini.innerHTML = rows.join('') || '<div style="font-size:11px;color:var(--stone);padding:8px 0;">No cycle data yet — start logging above</div>';
+}
+
+function renderPhaseInsight() {
+  const insight = document.getElementById('phaseInsight');
+  const cycleDays = Object.entries(state.cycleLog).sort(([a],[b]) => b.localeCompare(a)).slice(0, 45);
+  if (cycleDays.length < 3) { insight.style.display = 'none'; return; }
+
+  const periodDays = cycleDays.filter(([,v]) => v.period).map(([k]) => k).sort();
+  if (!periodDays.length) { insight.style.display = 'none'; return; }
+
+  const lastPeriodStart = periodDays[periodDays.length - 1];
+  const elapsed = daysBetween(lastPeriodStart, todayKey());
+  const bumpDaysLuteal = cycleDays.filter(([k,v]) => v.bumps && daysBetween(lastPeriodStart, k) > 14).length;
+
+  let text = '', sub = '';
+  if (elapsed <= 5) {
+    text = 'Period phase';
+    sub = 'Skin may be more sensitive. Azelaic or barrier nights if tret feels irritating.';
+  } else if (elapsed <= 13) {
+    text = 'Follicular phase';
+    sub = 'Estrogen rising — usually your skin\'s best window. Good time for tret nights.';
+  } else if (elapsed <= 17) {
+    text = 'Around ovulation';
+    sub = 'Skin often at its clearest here.';
+  } else {
+    text = 'Likely luteal phase';
+    sub = `~${elapsed - 14} days post-ovulation. Watch for folliculitis flares. If bumps appear, swap tret for azelaic + dapsone nights.`;
+    if (bumpDaysLuteal >= 2) sub += ' Your logs are already showing bumps clustering here — consistent with luteal folliculitis.';
+  }
+
+  insight.style.display = 'block';
+  insight.innerHTML = `<div class="insight-label">Phase insight · cycle day ${elapsed + 1}</div><div class="insight-text">${text}</div><div class="insight-sub">${sub}</div>`;
+}
+
+function toggleCycle(field) {
+  state.todayCycle[field] = !state.todayCycle[field];
+  renderCycleScreen();
+}
+
+function saveCycleDay() {
+  state.cycleLog[todayKey()] = { ...state.todayCycle };
+  persist();
+  renderCycleScreen();
+  showToast('Saved ✓');
+}
+
+renderHome();
+</script>
+</body>
+</html>
