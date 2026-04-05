@@ -258,8 +258,17 @@
     <h2 id="routineTitle">—</h2>
     <div class="session-label" id="routineSessionLabel">—</div>
   </div>
+  <!-- AM quick-complete banner -->
+  <div id="markAllBanner" style="display:none; padding:12px 24px 0;">
+    <button onclick="markAllDone()" style="width:100%;padding:14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;background:var(--ink);color:var(--cream);border:none;border-radius:12px;cursor:pointer;">✓ Mark all done</button>
+    <div style="font-size:10px;color:var(--clay);text-align:center;margin-top:8px;letter-spacing:0.05em;">Tap any step below to uncheck it first</div>
+  </div>
   <div class="steps-list" id="stepsList"></div>
   <div id="lacticNote" class="lactic-note" style="display:none">⚠ Lactic acid night — skip tret the night before and after. Use once every 2–3 weeks.</div>
+  <!-- Dapsone add button (shown during flares) -->
+  <div id="dapsoneRow" style="display:none; padding:0 24px 16px;">
+    <button id="dapsoneBtn" onclick="toggleDapsone()" style="width:100%;padding:12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;background:transparent;color:var(--clay);border:1px dashed rgba(0,0,0,0.15);border-radius:10px;cursor:pointer;">+ Add dapsone (flare night)</button>
+  </div>
   <div class="complete-section">
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
     <button class="complete-btn" id="completeBtn" onclick="markComplete()">Mark as done</button>
@@ -560,16 +569,27 @@ function toggleHomeCycle(field) {
 function startRoutine() {
   state.currentType = state.session === 'am' ? 'am' : getTonightType();
   state.checkedSteps = {};
+  state.dapsoneAdded = false;
   const r = ROUTINES[state.currentType];
   document.getElementById('routineTitle').textContent = r.label;
   document.getElementById('routineSessionLabel').textContent = state.session === 'am' ? '☀ Morning session' : '☽ Evening session';
   document.getElementById('lacticNote').style.display = state.currentType === 'lactic' ? 'block' : 'none';
+  // AM: show mark-all banner; PM: show dapsone option on tret/azel nights
+  document.getElementById('markAllBanner').style.display = state.currentType === 'am' ? 'block' : 'none';
+  const showDapsone = ['tret','azel'].includes(state.currentType);
+  document.getElementById('dapsoneRow').style.display = showDapsone ? 'block' : 'none';
   renderSteps();
   showScreen('routine');
 }
 
+function getActiveSteps() {
+  const base = [...ROUTINES[state.currentType].steps];
+  if (state.dapsoneAdded) base.push({ name: 'Dapsone', note: 'Flare night — apply after azelaic or tret, before moisturizer' });
+  return base;
+}
+
 function renderSteps() {
-  document.getElementById('stepsList').innerHTML = ROUTINES[state.currentType].steps.map((step, i) => `
+  document.getElementById('stepsList').innerHTML = getActiveSteps().map((step, i) => `
     <div class="step-item ${state.checkedSteps[i] ? 'done' : ''}" onclick="toggleStep(${i})">
       <div class="step-check"><div class="step-check-inner"></div></div>
       <div class="step-text">
@@ -578,25 +598,52 @@ function renderSteps() {
       </div>
     </div>`).join('');
   updateProgress();
+  // Update dapsone button label
+  const btn = document.getElementById('dapsoneBtn');
+  if (btn) btn.textContent = state.dapsoneAdded ? '− Remove dapsone' : '+ Add dapsone (flare night)';
 }
 
 function toggleStep(i) { state.checkedSteps[i] = !state.checkedSteps[i]; renderSteps(); }
 
+function toggleDapsone() {
+  state.dapsoneAdded = !state.dapsoneAdded;
+  // If removing dapsone, clear its checked state (last index)
+  if (!state.dapsoneAdded) {
+    const lastIdx = getActiveSteps().length; // was last before removal
+    delete state.checkedSteps[lastIdx];
+  }
+  renderSteps();
+}
+
+function markAllDone() {
+  const steps = getActiveSteps();
+  steps.forEach((_, i) => { state.checkedSteps[i] = true; });
+  renderSteps();
+}
+
 function updateProgress() {
-  const total = ROUTINES[state.currentType].steps.length;
+  const total = getActiveSteps().length;
   const done = Object.values(state.checkedSteps).filter(Boolean).length;
   document.getElementById('progressFill').style.width = (done / total * 100) + '%';
-  document.getElementById('completeBtn').classList.toggle('ready', done === total);
+  // AM: always ready (mark all handles it); PM: require all checked
+  const isAm = state.currentType === 'am';
+  document.getElementById('completeBtn').classList.toggle('ready', isAm || done === total);
 }
 
 function markComplete() {
-  const r = ROUTINES[state.currentType];
-  if (Object.values(state.checkedSteps).filter(Boolean).length < r.steps.length) { showToast('Check off each step first ✓'); return; }
+  const steps = getActiveSteps();
+  const done = Object.values(state.checkedSteps).filter(Boolean).length;
+  // For PM, require all steps checked
+  if (state.currentType !== 'am' && done < steps.length) { showToast('Check off each step first ✓'); return; }
   const key = todayKey();
   if (!state.completedDays[key]) state.completedDays[key] = {};
+  // Log which steps were actually done (unchecked = skipped)
+  const completedStepNames = steps.filter((_, i) => state.checkedSteps[i] !== false).map(s => s.name);
+  const skippedStepNames = steps.filter((_, i) => state.checkedSteps[i] === false).map(s => s.name);
   state.completedDays[key][state.session] = {
-    type: state.currentType, label: r.label,
-    steps: r.steps.map(s => s.name),
+    type: state.currentType, label: ROUTINES[state.currentType].label,
+    steps: completedStepNames,
+    skipped: skippedStepNames,
     time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
   };
   persist();
@@ -664,7 +711,8 @@ function renderLog() {
     ['am','pm'].forEach(sess => {
       if (!day[sess]) return;
       const e = day[sess];
-      entries += `<div class="log-entry"><div><div class="log-type">${e.label}</div><div class="log-steps-done">${e.steps.join(' · ')}${e.time !== '—' ? ' · ' + e.time : ''}</div></div><div class="log-session-badge">${sess.toUpperCase()}</div></div>`;
+      const skippedStr = e.skipped && e.skipped.length ? `<div style="font-size:10px;color:var(--cycle-dark);margin-top:2px;letter-spacing:0.03em;">skipped: ${e.skipped.join(', ')}</div>` : '';
+      entries += `<div class="log-entry"><div><div class="log-type">${e.label}</div><div class="log-steps-done">${e.steps.join(' · ')}${e.time !== '—' ? ' · ' + e.time : ''}</div>${skippedStr}</div><div class="log-session-badge">${sess.toUpperCase()}</div></div>`;
     });
     return `<div class="log-day-group"><div class="log-day-header"><span>${formatDate(key)}</span><div class="log-cycle-tags">${cycleTags}</div></div>${entries || '<div style="font-size:11px;color:var(--stone);padding:8px 0;">No routine logged</div>'}</div>`;
   }).join('');
