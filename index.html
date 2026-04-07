@@ -35,7 +35,7 @@
   .screen.active { display:flex; }
 
   /* HOME */
-  #home { background:var(--ink); color:var(--cream); padding:env(safe-area-inset-top,20px) 28px 32px; position:relative; overflow:hidden; }
+  #home { background:var(--ink); color:var(--cream); padding:env(safe-area-inset-top,20px) 28px 32px; position:relative; overflow-y:auto; overflow-x:hidden; }
   #home::before { content:''; position:absolute; top:-60px; right:-60px; width:240px; height:240px; border-radius:50%; background:radial-gradient(circle,rgba(126,207,203,0.18) 0%,transparent 70%); pointer-events:none; }
   .home-header { padding-top:20px; margin-bottom:8px; }
   .home-header .eyebrow { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone); margin-bottom:6px; }
@@ -79,7 +79,7 @@
   .session-btn.active { background:rgba(255,255,255,0.12); color:var(--cream); }
   .start-btn { width:100%; padding:18px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; background:var(--cream); color:var(--ink); border:none; border-radius:14px; cursor:pointer; }
   .start-btn:active { transform:scale(0.98); opacity:0.9; }
-  .home-nav { margin-top:auto; padding-top:16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .home-nav { margin-top:20px; padding-top:16px; padding-bottom:calc(env(safe-area-inset-bottom,12px) + 4px); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
   .nav-dot-btn { background:none; border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--stone); padding:8px 0; }
 
   /* ROUTINE */
@@ -88,7 +88,7 @@
   .back-btn { background:none; border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; color:var(--stone); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:8px; padding:0; }
   .routine-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; line-height:1; }
   .routine-header .session-label { font-size:10px; color:var(--stone); letter-spacing:0.15em; text-transform:uppercase; margin-top:6px; }
-  .steps-list { padding:20px 24px; flex:1; overflow-y:auto; }
+  .steps-list { padding:20px 24px 8px; flex:1; overflow-y:auto; }
   .step-item { display:flex; align-items:flex-start; gap:16px; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.06); cursor:pointer; min-height:56px; }
   .step-item:last-child { border-bottom:none; }
   .step-check { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--stone); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
@@ -96,13 +96,13 @@
   .step-check-inner { width:8px; height:8px; border-radius:50%; background:var(--cream); opacity:0; transition:opacity 0.2s; }
   .step-item.done .step-check-inner { opacity:1; }
   .step-text { flex:1; }
-  .step-name { font-size:14px; font-weight:400; letter-spacing:0.02em; line-height:1.3; }
-  .step-note { font-size:11px; color:var(--clay); margin-top:4px; letter-spacing:0.02em; line-height:1.4; }
+  .step-name { font-size:14px; font-weight:400; letter-spacing:0.02em; line-height:1.3; transition:opacity 0.2s; }
+  .step-note { font-size:11px; color:var(--clay); margin-top:4px; letter-spacing:0.02em; line-height:1.4; transition:opacity 0.2s; }
   .step-item.done .step-name { text-decoration:line-through; opacity:0.4; }
   .step-item.done .step-note { opacity:0.3; }
   .complete-section { padding:16px 24px calc(env(safe-area-inset-bottom,16px) + 16px); background:var(--warm-white); border-top:1px solid rgba(0,0,0,0.06); }
   .progress-bar-wrap { height:3px; background:rgba(0,0,0,0.08); border-radius:3px; margin-bottom:16px; overflow:hidden; }
-  .progress-bar-fill { height:100%; background:var(--ink); border-radius:3px; transition:width 0.4s ease; width:0%; }
+  .progress-bar-fill { height:100%; background:var(--ink); border-radius:3px; transition:width 0.4s ease, background 0.3s ease; width:0%; }
   .complete-btn { width:100%; padding:17px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; background:var(--ink); color:var(--cream); border:none; border-radius:14px; cursor:pointer; opacity:0.4; transition:all 0.15s; }
   .complete-btn.ready { opacity:1; }
   .complete-btn:active { transform:scale(0.98); }
@@ -113,7 +113,7 @@
   .schedule-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
   .schedule-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
   .schedule-header .sub { font-size:10px; color:var(--clay); letter-spacing:0.08em; margin-top:4px; }
-  .week-grid { padding:12px 24px; flex:1; overflow-y:auto; }
+  .week-grid { padding:12px 24px; flex:1; overflow-y:auto; padding-bottom:calc(env(safe-area-inset-bottom,12px) + 80px); }
   .day-row { display:grid; grid-template-columns:52px 1fr auto; gap:10px; align-items:center; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
   .day-row:last-child { border-bottom:none; }
   .day-name { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--clay); }
@@ -131,7 +131,7 @@
   #log { background:var(--cream); }
   .log-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
   .log-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
-  .log-list { padding:12px 24px; flex:1; overflow-y:auto; }
+  .log-list { padding:12px 24px; flex:1; overflow-y:auto; padding-bottom:calc(env(safe-area-inset-bottom,12px) + 80px); }
   .log-day-group { margin-bottom:20px; }
   .log-day-header { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--clay); padding:8px 0 6px; border-bottom:1px solid rgba(0,0,0,0.06); margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
   .log-cycle-tags { display:flex; gap:5px; }
@@ -151,7 +151,7 @@
   .cycle-header { padding:calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom:1px solid rgba(0,0,0,0.07); }
   .cycle-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
   .cycle-header .sub { font-size:10px; color:var(--clay); letter-spacing:0.06em; margin-top:4px; line-height:1.5; }
-  .cycle-body { padding:20px 24px; flex:1; overflow-y:auto; }
+  .cycle-body { padding:20px 24px; flex:1; overflow-y:auto; padding-bottom:calc(env(safe-area-inset-bottom,12px) + 80px); }
   .cycle-section { margin-bottom:28px; }
   .cycle-section-title { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--clay); margin-bottom:12px; }
   .big-toggle-row { display:flex; gap:10px; margin-bottom:14px; }
@@ -175,7 +175,7 @@
   /* BOTTOM NAV */
   .bottom-nav { display:flex; background:var(--ink); padding:12px 8px calc(env(safe-area-inset-bottom,12px) + 12px); gap:4px; }
   .bnav-btn { flex:1; background:none; border:none; cursor:pointer; padding:8px 4px 4px; display:flex; flex-direction:column; align-items:center; gap:5px; }
-  .bnav-icon { width:20px; height:20px; opacity:0.4; transition:opacity 0.2s; }
+  .bnav-icon { width:20px; height:20px; opacity:0.4; transition:opacity 0.2s; color:var(--cream); }
   .bnav-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:var(--stone); opacity:0.4; }
   .bnav-btn.active .bnav-icon, .bnav-btn.active .bnav-label { opacity:1; }
 
@@ -189,6 +189,201 @@
   .modal-btn { flex:1; padding:15px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; border-radius:12px; border:none; cursor:pointer; }
   .modal-btn-primary { background:var(--ink); color:var(--cream); }
   .modal-btn-secondary { background:rgba(0,0,0,0.07); color:var(--ink); }
+
+
+  /* ROADMAP */
+  #roadmap { background: var(--cream); }
+  .roadmap-header { padding: calc(env(safe-area-inset-top,16px) + 16px) 24px 20px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .roadmap-header h2 { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; }
+  .roadmap-header .sub { font-size:10px; color:var(--clay); letter-spacing:0.06em; margin-top:4px; }
+  .roadmap-body { padding: 16px 24px; flex:1; overflow-y:auto; padding-bottom: calc(env(safe-area-inset-bottom,16px) + 80px); }
+
+  .roadmap-week {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0 14px;
+    margin-bottom: 0;
+  }
+
+  /* Left column: timeline */
+  .rm-timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .rm-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--stone);
+    background: var(--cream);
+    flex-shrink: 0;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .rm-dot.active {
+    background: var(--tret-color);
+    border-color: var(--tret-color);
+    box-shadow: 0 0 0 4px rgba(126,207,203,0.2);
+    width: 14px; height: 14px;
+  }
+
+  .rm-dot.done {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .rm-dot.pdrn {
+    background: transparent;
+    border-color: var(--tret-color);
+    border-width: 2px;
+    width: 14px; height: 14px;
+  }
+
+  .rm-line {
+    width: 2px;
+    flex: 1;
+    min-height: 20px;
+    background: rgba(0,0,0,0.08);
+    margin: 2px 0;
+  }
+
+  .rm-line.done { background: var(--ink); opacity: 0.3; }
+  .rm-line.active { background: linear-gradient(to bottom, var(--tret-color), rgba(0,0,0,0.08)); }
+
+  /* Right column: content */
+  .rm-content {
+    padding-bottom: 20px;
+  }
+
+  .rm-week-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 4px;
+    padding-top: 1px;
+  }
+
+  .rm-week-label.active-label { color: var(--tret-color); }
+  .rm-week-label.done-label { color: var(--clay); }
+
+  .rm-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .rm-title.muted { color: var(--stone); }
+
+  .rm-changes {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .rm-change {
+    font-size: 11px;
+    color: var(--clay);
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+  }
+
+  .rm-change-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 11px;
+  }
+
+  .rm-change.unlock { color: var(--sage); }
+  .rm-change.unlock .rm-change-icon::before { content: '↑'; }
+  .rm-change.transition { color: var(--tret-color); }
+  .rm-change.transition .rm-change-icon::before { content: '→'; }
+  .rm-change.caution { color: var(--cycle-dark); }
+  .rm-change.caution .rm-change-icon::before { content: '⚠'; }
+  .rm-change.pdrn-change { color: #5aab9e; }
+  .rm-change.pdrn-change .rm-change-icon::before { content: '💉'; }
+  .rm-change.done-change { color: var(--stone); }
+  .rm-change.done-change .rm-change-icon::before { content: '✓'; }
+
+  .rm-progress-bar {
+    height: 3px;
+    background: rgba(0,0,0,0.07);
+    border-radius: 3px;
+    margin: 8px 0 0;
+    overflow: hidden;
+  }
+
+  .rm-progress-fill {
+    height: 100%;
+    background: var(--tret-color);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  .rm-current-badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 10px;
+    background: rgba(126,207,203,0.15);
+    color: var(--tret-color);
+    margin-bottom: 6px;
+  }
+
+  .rm-am-pm-preview {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .rm-routine-card {
+    background: var(--warm-white);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .rm-routine-card-label {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 6px;
+  }
+
+  .rm-routine-step {
+    font-size: 10px;
+    color: var(--clay);
+    letter-spacing: 0.03em;
+    line-height: 1.7;
+  }
+
+  .rm-routine-step.highlight { color: var(--tret-color); font-weight: 400; }
+
+  /* PDRN CHECKLIST */
+  .pdrn-checklist { display:flex; flex-direction:column; gap:2px; }
+  .pdrn-check { display:flex; align-items:flex-start; gap:12px; padding:10px 0; cursor:pointer; border-bottom:1px solid rgba(0,0,0,0.04); -webkit-tap-highlight-color:transparent; }
+  .pdrn-check:last-child { border-bottom:none; }
+  .pdrn-check-box { width:20px; height:20px; border-radius:50%; border:1.5px solid var(--stone); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .pdrn-check.checked .pdrn-check-box { background:var(--tret-color); border-color:var(--tret-color); }
+  .pdrn-check.checked .pdrn-check-box::after { content:'✓'; font-size:10px; color:var(--ink); }
+  .pdrn-check-text { font-size:11px; color:var(--clay); line-height:1.5; letter-spacing:0.03em; transition:opacity 0.2s; }
+  .pdrn-check.checked .pdrn-check-text { opacity:0.4; text-decoration:line-through; }
+  .pdrn-clear { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--stone); background:none; border:none; cursor:pointer; padding:4px 0 0; }
 
   /* TOAST */
   .toast { position:fixed; bottom:calc(env(safe-area-inset-bottom,20px) + 90px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--cream); font-size:11px; letter-spacing:0.08em; padding:12px 20px; border-radius:30px; opacity:0; transition:all 0.3s; pointer-events:none; white-space:nowrap; z-index:100; }
@@ -230,8 +425,14 @@
     </div>
   </div>
 
+  <!-- PDRN alert banner -->
+  <div id="pdrnBanner" style="display:none; margin:12px 0 0; border-radius:12px; padding:14px 16px; border:1px solid rgba(126,207,203,0.3); background:rgba(126,207,203,0.08);">
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--tret-color);margin-bottom:5px;" id="pdrnBannerLabel">PDRN</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--cream);line-height:1.4;" id="pdrnBannerText">—</div>
+  </div>
+
   <div class="tonight-card">
-    <div class="tonight-label">Tonight's routine</div>
+    <div class="tonight-label" id="tonightLabel">Tonight's routine</div>
     <div class="tonight-type" id="tonightType">—</div>
     <span class="tonight-badge" id="tonightBadge">—</span>
     <div class="tonight-steps-preview" id="tonightStepsPreview"></div>
@@ -248,6 +449,8 @@
     <button class="nav-dot-btn" onclick="showScreen('schedule')">Schedule</button>
     <button class="nav-dot-btn" onclick="showScreen('log')">History</button>
     <button class="nav-dot-btn" onclick="showScreen('cyclescreen')">Cycle</button>
+    <button class="nav-dot-btn" onclick="showScreen('pdrnscreen')">PDRN</button>
+    <button class="nav-dot-btn" onclick="showScreen('roadmap')">Roadmap</button>
   </div>
 </div>
 
@@ -260,8 +463,8 @@
   </div>
   <!-- AM quick-complete banner -->
   <div id="markAllBanner" style="display:none; padding:12px 24px 0;">
-    <button onclick="markAllDone()" style="width:100%;padding:14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;background:var(--ink);color:var(--cream);border:none;border-radius:12px;cursor:pointer;">✓ Mark all done</button>
-    <div style="font-size:10px;color:var(--clay);text-align:center;margin-top:8px;letter-spacing:0.05em;">Tap any step below to uncheck it first</div>
+    <button onclick="markAllDone()" style="width:100%;padding:14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;background:var(--ink);color:var(--cream);border:none;border-radius:12px;cursor:pointer;">✓ Quick-complete AM routine</button>
+    <div style="font-size:10px;color:var(--clay);text-align:center;margin-top:8px;letter-spacing:0.05em;">Marks all steps done — tap any step to uncheck if you skipped it</div>
   </div>
   <div class="steps-list" id="stepsList"></div>
   <div id="lacticNote" class="lactic-note" style="display:none">⚠ Lactic acid night — skip tret the night before and after. Use once every 2–3 weeks.</div>
@@ -284,19 +487,19 @@
   <div class="week-grid" id="weekGrid"></div>
   <div class="bottom-nav">
     <button class="bnav-btn" onclick="showScreen('home')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
       <span class="bnav-label">Home</span>
     </button>
     <button class="bnav-btn active">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
       <span class="bnav-label">Schedule</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('log')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       <span class="bnav-label">History</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('cyclescreen')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
       <span class="bnav-label">Cycle</span>
     </button>
   </div>
@@ -308,19 +511,19 @@
   <div class="log-list" id="logList"></div>
   <div class="bottom-nav">
     <button class="bnav-btn" onclick="showScreen('home')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
       <span class="bnav-label">Home</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('schedule')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
       <span class="bnav-label">Schedule</span>
     </button>
     <button class="bnav-btn active">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       <span class="bnav-label">History</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('cyclescreen')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
       <span class="bnav-label">Cycle</span>
     </button>
   </div>
@@ -355,20 +558,134 @@
   </div>
   <div class="bottom-nav">
     <button class="bnav-btn" onclick="showScreen('home')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
       <span class="bnav-label">Home</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('schedule')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
       <span class="bnav-label">Schedule</span>
     </button>
     <button class="bnav-btn" onclick="showScreen('log')">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       <span class="bnav-label">History</span>
     </button>
     <button class="bnav-btn active">
-      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#f7f3ee"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
       <span class="bnav-label">Cycle</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- PDRN SCREEN -->
+<div class="screen" id="pdrnscreen">
+  <div class="cycle-header">
+    <h2>PDRN sessions</h2>
+    <div class="sub">Juve Eyes under-eye · pre + post care reminders auto-appear on home screen</div>
+  </div>
+  <div class="cycle-body">
+    <div class="cycle-section">
+      <div class="cycle-section-title">Scheduled sessions</div>
+      <div id="pdrnSessionList"></div>
+    </div>
+
+    <div class="cycle-section">
+      <div class="cycle-section-title" style="display:flex;justify-content:space-between;align-items:center;">
+        Pre-treatment checklist (3–5 days before)
+        <button class="pdrn-clear" onclick="clearPdrnChecks('pre')">Reset</button>
+      </div>
+      <div class="pdrn-checklist" id="pdrnCheckPre">
+        <div class="pdrn-check" data-group="pre" data-idx="0" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Stop tretinoin, AHAs, vitamin C</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="1" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Stop fish oil, vitamin E, NSAIDs</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="2" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Switch under-eyes + upper cheeks to 5% urea — stop 10% in that zone 24h before session</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="3" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">No alcohol (48h before minimum)</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="4" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Start Bromelain supplement (actual evidence for swelling reduction)</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="5" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Paracetamol only for pain relief</span></div>
+        <div class="pdrn-check" data-group="pre" data-idx="6" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Switch to barrier nights (urea + squalane only)</span></div>
+      </div>
+    </div>
+
+    <div class="cycle-section">
+      <div class="cycle-section-title" style="display:flex;justify-content:space-between;align-items:center;">
+        Day-of (session at ~6 PM)
+        <button class="pdrn-clear" onclick="clearPdrnChecks('dayof')">Reset</button>
+      </div>
+      <div class="pdrn-checklist" id="pdrnCheckDayof">
+        <div class="pdrn-check" data-group="dayof" data-idx="0" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Shower + wash hair early AM — can't wet face 12–24h post</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="1" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Full hydration routine AM: HA → CeraVe PM → Squalane</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="2" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">No exercise after shower</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="3" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Syringe out of fridge by 3 PM (needs 2–3h to warm)</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="4" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Fresh pillowcase on + extra pillow positioned</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="5" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Strip + cleanse face at 4:30 PM</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="6" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">Lidocaine 5% under eyes at 5:15 PM (35–40 min under cling film)</span></div>
+        <div class="pdrn-check" data-group="dayof" data-idx="7" onclick="togglePdrnCheck(this)"><div class="pdrn-check-box"></div><span class="pdrn-check-text">32G Luer Lock needles × 2 ready</span></div>
+      </div>
+    </div>
+
+    <div class="cycle-section">
+      <div class="cycle-section-title">Post-care skincare timeline</div>
+      <div style="font-size:11px;color:var(--clay);line-height:2;letter-spacing:0.03em;">
+        <div><span style="color:var(--tret-color);">Tonight</span> — nothing. Bare face. Cold compress only.</div>
+        <div><span style="color:var(--tret-color);">Day 1</span> — Avene Cicalfate only. Bottled water. No makeup.</div>
+        <div><span style="color:var(--tret-color);">Day 2</span> — Resume HA, CeraVe PM, Squalane, SPF. Still no tret/vitamin C.</div>
+        <div><span style="color:var(--tret-color);">Day 3–5</span> — Resume tret (avoid tear trough). Resume vitamin C day 5.</div>
+        <div><span style="color:var(--tret-color);">After 24h</span> — Topical arnica gel (actual helenalin), LED panel 10–15 min, continue Bromelain.</div>
+      </div>
+    </div>
+
+    <div class="cycle-section">
+      <div class="cycle-section-title">Long-term protocol</div>
+      <div style="font-size:11px;color:var(--clay);line-height:1.8;letter-spacing:0.03em;">
+        3 loading sessions spaced 3–4 weeks apart, then 3–6 month pause.<br>
+        Visible results ~3–4 months after final session.<br>
+        Maintenance: 1 session every 6–9 months after loading phase.
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('home')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('schedule')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      <span class="bnav-label">Schedule</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('cyclescreen')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <span class="bnav-label">Cycle</span>
+    </button>
+    <button class="bnav-btn active">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+      <span class="bnav-label">PDRN</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ROADMAP SCREEN -->
+<div class="screen" id="roadmap">
+  <div class="roadmap-header">
+    <h2>Roadmap</h2>
+    <div class="sub" id="roadmapSub">Your protocol timeline</div>
+  </div>
+  <div class="roadmap-body" id="roadmapBody"></div>
+  <div class="bottom-nav">
+    <button class="bnav-btn" onclick="showScreen('home')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-btn active">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 17 13 8 8 13 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+      <span class="bnav-label">Roadmap</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('cyclescreen')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      <span class="bnav-label">Cycle</span>
+    </button>
+    <button class="bnav-btn" onclick="showScreen('pdrnscreen')">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+      <span class="bnav-label">PDRN</span>
     </button>
   </div>
 </div>
@@ -376,11 +693,16 @@
 <!-- Stab reset modal -->
 <div class="modal-overlay" id="stabModal">
   <div class="modal-sheet">
-    <div class="modal-title">Reset tret timer?</div>
-    <div class="modal-sub">Use this when you restart tretinoin after a break. The 4-week stability countdown restarts from today.</div>
+    <div class="modal-title" id="stabModalTitle">Reset tret timer?</div>
+    <div class="modal-sub" id="stabModalSub">Use this when you restart tretinoin after a break. The week countdown restarts from today.</div>
     <div class="modal-btn-row">
       <button class="modal-btn modal-btn-secondary" onclick="closeStabModal()">Cancel</button>
       <button class="modal-btn modal-btn-primary" onclick="resetStab()">Yes, restart</button>
+    </div>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.08);">
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--clay);margin-bottom:10px;">Tret application method</div>
+      <button onclick="toggleBarrierReady()" id="barrierReadyBtn" style="width:100%;padding:13px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;border-radius:10px;border:1px solid rgba(0,0,0,0.12);background:var(--warm-white);color:var(--ink);cursor:pointer;">—</button>
+      <div style="font-size:10px;color:var(--clay);margin-top:8px;line-height:1.5;letter-spacing:0.03em;" id="barrierReadyNote">—</div>
     </div>
   </div>
 </div>
@@ -388,13 +710,25 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// Base routine definitions — getActiveSteps() injects phase-appropriate versions
 const ROUTINES = {
+  // Tret sandwich (weeks 1–5): moisturizer → tret → squalane
   tret: {
     label: 'Tret night', badge: 'badge-tret',
     steps: [
       { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
-      { name: 'Urea moisturizer', note: 'Thin layer — tret sandwich base' },
+      { name: 'Urea moisturizer', note: 'Thin layer — sandwich base. Wait a few minutes before tret' },
       { name: 'Tretinoin 0.1%', note: 'Pea-sized amount, avoid eye area' },
+      { name: 'Squalane', note: 'Optional — seal on top' },
+    ]
+  },
+  // Tret direct (weeks 6–8+): tret → wait → moisturizer — unlocked when barrierReady flag set
+  tret_direct: {
+    label: 'Tret night', badge: 'badge-tret',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Tretinoin 0.1%', note: 'Pea-sized amount, avoid eye area. Wait a few minutes' },
+      { name: 'Urea moisturizer', note: 'Apply after tret has absorbed' },
       { name: 'Squalane', note: 'Optional — seal on top' },
     ]
   },
@@ -419,24 +753,91 @@ const ROUTINES = {
     steps: [
       { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
       { name: 'Lactic acid', note: 'Once every 2–3 weeks only' },
-      { name: 'Urea moisturizer', note: 'Follow immediately' },
+      { name: 'Urea moisturizer', note: 'Follow immediately after lactic' },
     ]
   },
+  // AM base — getActiveSteps() injects correct urea % and vitamin C based on week
   am: {
     label: 'Morning routine', badge: 'badge-am',
+    steps: [] // populated dynamically by getActiveSteps()
+  },
+  // ── PDRN special routines ──
+  pdrn_prep: {
+    label: 'Barrier night (PDRN prep)', badge: 'badge-barrier',
     steps: [
-      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
-      { name: 'Azelaic acid', note: 'Anti-redness, pairs well with SPF' },
-      { name: 'Urea moisturizer', note: 'Wait a minute before next steps' },
-      { name: 'Squalane', note: 'Optional — 1–2 drops if dry, before SPF' },
-      { name: 'Mineral sunscreen', note: 'Every day — wait 10–15 min before makeup' },
+      { name: 'Cleanse', note: 'Gentle cleanser only — no actives' },
+      { name: '10% urea moisturizer', note: 'Rest of face only — avoid under-eyes + upper cheeks (treatment zone)' },
+      { name: '5% urea on under-eyes', note: 'Use 5% urea only on under-eyes + upper cheeks from now until session' },
+      { name: 'Squalane', note: 'Seal it in' },
     ]
-  }
+  },
+  pdrn_dayof_am: {
+    label: 'PDRN day — morning prep', badge: 'badge-am',
+    steps: [
+      { name: 'Shower + wash hair NOW', note: 'Most important task — cannot wet face 12–24h post-injection' },
+      { name: 'Hyaluronic acid', note: 'On damp skin immediately after shower' },
+      { name: 'CeraVe PM', note: 'Over HA — let this sit and absorb all day' },
+      { name: '5% urea only on under-eyes', note: 'Within 24h of session — no 10% urea on under-eyes or upper cheeks. Rest of face fine.' },
+            { name: 'Squalane', note: "Seal — you'll strip all of this off before numbing at 4:30 PM" },
+    ]
+  },
+  pdrn_dayof_pm: {
+    label: 'PDRN night — nothing', badge: 'badge-barrier',
+    steps: [
+      { name: 'Nothing tonight', note: 'Micro-channels open for 12–24h. Bare face only.' },
+      { name: 'Cold compress', note: 'Wrapped gel pack, 10–15 min each side. Do not press on blebs.' },
+      { name: 'Sleep elevated', note: 'Extra pillow, back sleeping only — prevents asymmetric swelling' },
+    ]
+  },
+  pdrn_day1_am: {
+    label: 'Post-PDRN day 1 — AM', badge: 'badge-barrier',
+    steps: [
+      { name: 'Skip face wash if possible', note: "Slept clean on clean pillowcase — skin doesn't need it" },
+      { name: 'Bottled water only if cleansing', note: 'No London tap water — alkaline minerals inflame fresh punctures' },
+      { name: 'Avene Cicalfate', note: 'Tap gently over injection sites — your only product today' },
+    ]
+  },
+  pdrn_day1_pm: {
+    label: 'Post-PDRN day 1 — PM', badge: 'badge-barrier',
+    steps: [
+      { name: 'Avene Cicalfate', note: 'Tap gently — still your only product tonight' },
+      { name: 'Topical arnica gel', note: 'Now safe to apply (channels sealed after 24h) — tap over any bruising' },
+      { name: 'Sleep elevated again', note: 'Back sleeping, extra pillow' },
+    ]
+  },
+  pdrn_day2: {
+    label: 'Post-PDRN day 2 — normal resumes', badge: 'badge-barrier',
+    steps: [
+      { name: 'Cleanse', note: 'Gentle cleanser, lukewarm water — avoid direct eye area' },
+      { name: 'Hyaluronic acid', note: 'Back to normal — apply on damp skin' },
+      { name: 'CeraVe PM', note: 'Normal barrier support' },
+      { name: 'Squalane', note: 'Optional' },
+    ]
+  },
+  pdrn_recovery: {
+    label: 'PDRN recovery — barrier only', badge: 'badge-barrier',
+    steps: [
+      { name: 'Cleanse', note: 'Gentle cleanser only' },
+      { name: '10% urea moisturizer', note: 'No actives yet — tret and vitamin C resume day 3–5' },
+      { name: 'Squalane', note: 'Optional' },
+    ]
+  },
+};
+
+// Phase thresholds (days from tretStartDate)
+const PHASE = {
+  urea10AmUnlocks: 14,    // week 3: 10% urea in AM
+  vitCUnlocks: 28,        // week 4: vitamin C every other AM
+  vitCDailyUnlocks: 35,   // week 5: vitamin C daily
+  tretDirectUnlocks: 42,  // week 6: tret-first method (only if barrierReady)
 };
 
 const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const DEFAULT_SCHEDULE = ['tret','barrier','azel','tret','barrier','tret','azel'];
 const STAB_DAYS = 28;
+
+// PDRN session dates (ISO strings)
+const PDRN_SESSIONS = ['2026-04-15', '2026-05-10'];
 
 let state = {
   session: 'pm',
@@ -447,6 +848,8 @@ let state = {
   cycleLog: {},
   tretStartDate: null,
   todayCycle: { period: false, bumps: false },
+  pdrnSessions: [...PDRN_SESSIONS],
+  barrierReady: false,  // set to true manually when skin tolerates tret-first at wk 6–8
 };
 
 try {
@@ -457,6 +860,8 @@ try {
     if (p.completedDays) state.completedDays = p.completedDays;
     if (p.cycleLog) state.cycleLog = p.cycleLog;
     if (p.tretStartDate) state.tretStartDate = p.tretStartDate;
+    if (p.pdrnSessions) state.pdrnSessions = p.pdrnSessions;
+    if (p.barrierReady !== undefined) state.barrierReady = p.barrierReady;
     const tk = todayKey();
     if (p.cycleLog && p.cycleLog[tk]) state.todayCycle = { ...p.cycleLog[tk] };
   }
@@ -464,7 +869,7 @@ try {
 } catch(e) {}
 
 function persist() {
-  try { localStorage.setItem('skin_v2', JSON.stringify({ schedule: state.schedule, completedDays: state.completedDays, cycleLog: state.cycleLog, tretStartDate: state.tretStartDate })); } catch(e) {}
+  try { localStorage.setItem('skin_v2', JSON.stringify({ schedule: state.schedule, completedDays: state.completedDays, cycleLog: state.cycleLog, tretStartDate: state.tretStartDate, pdrnSessions: state.pdrnSessions, barrierReady: state.barrierReady })); } catch(e) {}
 }
 
 function todayKey() {
@@ -501,7 +906,242 @@ function showScreen(id) {
   if (id === 'schedule') renderSchedule();
   if (id === 'log') renderLog();
   if (id === 'cyclescreen') renderCycleScreen();
+  if (id === 'pdrnscreen') renderPdrnScreen();
+  if (id === 'roadmap') renderRoadmap();
   window.scrollTo(0, 0);
+}
+
+
+// PDRN SCREEN
+function renderPdrnScreen() {
+  const list = document.getElementById('pdrnSessionList');
+  const today = todayKey();
+  list.innerHTML = state.pdrnSessions.map((d, i) => {
+    const diff = daysBetween(today, d);
+    const dateStr = new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    let status = '', statusColor = 'var(--clay)';
+    if (diff > 0) { status = `in ${diff} day${diff===1?'':'s'}`; statusColor = diff <= 5 ? 'var(--tret-color)' : 'var(--sage)'; }
+    else if (diff === 0) { status = 'today'; statusColor = 'var(--tret-color)'; }
+    else { status = `${Math.abs(diff)} days ago`; statusColor = 'var(--stone)'; }
+    return `<div style="padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;">Session ${i+1}</div>
+        <div style="font-size:11px;color:var(--clay);margin-top:3px;letter-spacing:0.03em;">${dateStr}</div>
+      </div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:${statusColor};">${status}</div>
+    </div>`;
+  }).join('') || '<div style="font-size:11px;color:var(--stone);padding:12px 0;">No sessions scheduled</div>';
+}
+
+
+// ROADMAP
+function renderRoadmap() {
+  const elapsed = getElapsed();
+  const startDate = new Date(state.tretStartDate + 'T12:00:00');
+
+  function addDays(n) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + n);
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+
+  function weekStatus(startDay, endDay) {
+    if (elapsed >= endDay) return 'done';
+    if (elapsed >= startDay) return 'active';
+    return 'upcoming';
+  }
+
+  // PDRN proximity: which session impacts which week?
+  function pdrnImpact(weekStartDay, weekEndDay) {
+    const impacts = [];
+    for (const sess of state.pdrnSessions) {
+      const sessElapsed = daysBetween(state.tretStartDate, sess);
+      // PDRN prep window = 5 days before to 5 days after
+      if (sessElapsed - 5 <= weekEndDay && sessElapsed + 5 >= weekStartDay) {
+        const sessDate = new Date(sess + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const daysFromNow = daysBetween(todayKey(), sess);
+        const timing = daysFromNow > 0 ? `in ${daysFromNow}d` : daysFromNow === 0 ? 'today' : `${Math.abs(daysFromNow)}d ago`;
+        impacts.push({ date: sessDate, timing, sessElapsed });
+      }
+    }
+    return impacts;
+  }
+
+  const milestones = [
+    {
+      weekLabel: 'Weeks 1–2',
+      startDay: 0, endDay: 14,
+      title: 'Reintroducing tret',
+      changes: [
+        { type: 'done-change', text: '10% urea PM — all nights' },
+        { type: 'done-change', text: '5% urea AM — mornings only' },
+        { type: 'done-change', text: 'Tret sandwich method (moisturizer → tret → squalane)' },
+        { type: 'done-change', text: 'No vitamin C yet' },
+      ],
+      amSteps: ['Cleanse', 'Azelaic acid', '5% urea', 'Mineral SPF'],
+      pmSteps: ['Cleanse', '10% urea', 'Tretinoin', 'Squalane'],
+    },
+    {
+      weekLabel: 'Week 3',
+      startDay: 14, endDay: 21,
+      title: '10% urea AM',
+      changes: [
+        { type: 'unlock', text: '10% urea replaces 5% in mornings' },
+        { type: 'done-change', text: 'Sandwich method continues PM' },
+        { type: 'done-change', text: 'No vitamin C yet' },
+      ],
+      amSteps: ['Cleanse', 'Azelaic acid', '10% urea ↑', 'Mineral SPF'],
+      pmSteps: ['Cleanse', '10% urea', 'Tretinoin', 'Squalane'],
+    },
+    {
+      weekLabel: 'Week 4',
+      startDay: 21, endDay: 28,
+      title: 'Vitamin C intro',
+      changes: [
+        { type: 'unlock', text: 'Vitamin C every other morning — before azelaic' },
+        { type: 'done-change', text: 'Full 10% urea AM + PM' },
+        { type: 'caution', text: 'Introduce slowly — watch for redness or stinging' },
+      ],
+      amSteps: ['Cleanse', 'Vit C (alt. days) ↑', 'Azelaic acid', '10% urea', 'Mineral SPF'],
+      pmSteps: ['Cleanse', '10% urea', 'Tretinoin', 'Squalane'],
+    },
+    {
+      weekLabel: 'Week 5',
+      startDay: 28, endDay: 35,
+      title: 'Vitamin C daily',
+      changes: [
+        { type: 'transition', text: 'Vitamin C every morning if tolerated' },
+        { type: 'done-change', text: 'Sandwich method continues — monitoring barrier' },
+      ],
+      amSteps: ['Cleanse', 'Vit C (daily) ↑', 'Azelaic acid', '10% urea', 'Mineral SPF'],
+      pmSteps: ['Cleanse', '10% urea', 'Tretinoin', 'Squalane'],
+    },
+    {
+      weekLabel: 'Weeks 6–8',
+      startDay: 35, endDay: 56,
+      title: 'Tret-first transition',
+      changes: [
+        { type: 'transition', text: 'If barrier stable: switch to tret-first (tret → wait → moisturizer)' },
+        { type: 'caution', text: 'Only if 2+ stable tret nights with zero flaking or sensitivity' },
+        { type: 'done-change', text: 'Enable in app settings (tap tret stability ring → Reset)' },
+      ],
+      amSteps: ['Cleanse', 'Vit C', 'Azelaic acid', '10% urea', 'Mineral SPF'],
+      pmSteps: state.barrierReady
+        ? ['Cleanse', 'Tretinoin ↑', 'wait', '10% urea', 'Squalane']
+        : ['Cleanse', '10% urea', 'Tretinoin', 'Squalane', '(sandwich still)'],
+    },
+    {
+      weekLabel: 'Week 8+',
+      startDay: 56, endDay: 999,
+      title: 'Fully dialled in',
+      changes: [
+        { type: 'done-change', text: 'Tret-first method (if barrier confirmed stable)' },
+        { type: 'done-change', text: 'Full AM: vit C → azelaic → 10% urea → SPF' },
+        { type: 'done-change', text: 'Lactic acid every 2–3 weeks as needed' },
+      ],
+      amSteps: ['Cleanse', 'Vit C', 'Azelaic acid', '10% urea', 'Mineral SPF'],
+      pmSteps: ['Cleanse', 'Tretinoin', 'wait', '10% urea', 'Squalane'],
+    },
+  ];
+
+  // Insert PDRN sessions as special nodes
+  // Build flat list then sort by day so PDRN nodes appear after the week they sit in
+  const nodes = [];
+  const pdrnInserted = new Set();
+
+  for (let i = 0; i < milestones.length; i++) {
+    const m = milestones[i];
+    milestones[i].dayOffset = m.startDay; // sortable
+    nodes.push({ type: 'milestone', ...m });
+    const impacts = pdrnImpact(m.startDay, m.endDay);
+    for (const imp of impacts) {
+      const key = imp.date;
+      if (!pdrnInserted.has(key)) {
+        pdrnInserted.add(key);
+        const dPDRN = imp.sessElapsed;
+        const pStatus = elapsed > dPDRN + 5 ? 'done' : elapsed >= dPDRN - 5 ? 'active' : 'upcoming';
+        nodes.push({ type: 'pdrn', date: imp.date, timing: imp.timing, status: pStatus, dayOffset: dPDRN });
+      }
+    }
+  }
+
+  // Sort by dayOffset so everything is chronological
+  nodes.sort((a, b) => a.dayOffset - b.dayOffset);
+
+  // Update subtitle
+  const currentWeek = Math.floor(elapsed / 7) + 1;
+  document.getElementById('roadmapSub').textContent =
+    elapsed < 0 ? 'Tret not started' : `Week ${currentWeek} of your protocol · started ${addDays(0)}`;
+
+  // Render
+  const body = document.getElementById('roadmapBody');
+
+  body.innerHTML = nodes.map((node, idx) => {
+    const isLast = idx === nodes.length - 1;
+
+    if (node.type === 'pdrn') {
+      const isActive = node.status === 'active';
+      const isDone = node.status === 'done';
+      return `
+      <div class="roadmap-week">
+        <div class="rm-timeline">
+          <div class="rm-dot pdrn ${isDone ? 'done' : ''}" style="${isActive ? 'box-shadow:0 0 0 4px rgba(90,171,158,0.2);border-color:var(--sage);' : ''}"></div>
+          ${!isLast ? `<div class="rm-line ${isDone ? 'done' : ''}"></div>` : ''}
+        </div>
+        <div class="rm-content">
+          ${isActive ? '<span class="rm-current-badge" style="background:rgba(90,171,158,0.15);color:var(--sage);">approaching</span>' : ''}
+          <div class="rm-week-label ${isActive ? 'active-label' : ''}" style="${isActive ? 'color:var(--sage)' : ''}">${node.timing}</div>
+          <div class="rm-title ${isDone ? 'muted' : ''}" style="font-size:18px;">💉 PDRN session — ${node.date}</div>
+          <div class="rm-changes">
+            <div class="rm-change pdrn-change"><span class="rm-change-icon"></span><span>Stop tret, AHAs 3–5 days before</span></div>
+            <div class="rm-change pdrn-change"><span class="rm-change-icon"></span><span>Barrier nights only pre-session</span></div>
+            <div class="rm-change pdrn-change"><span class="rm-change-icon"></span><span>Resume tret day 3–5 post. Vitamin C day 5.</span></div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    const status = weekStatus(node.startDay, node.endDay);
+    const isActive = status === 'active';
+    const isDone = status === 'done';
+    const pct = isActive
+      ? Math.round(Math.min(((elapsed - node.startDay) / (node.endDay - node.startDay)) * 100, 100))
+      : isDone ? 100 : 0;
+
+    const dateRange = `${addDays(node.startDay)} – ${node.endDay < 999 ? addDays(node.endDay) : '→'}`;
+
+    return `
+    <div class="roadmap-week">
+      <div class="rm-timeline">
+        <div class="rm-dot ${isActive ? 'active' : isDone ? 'done' : ''}"></div>
+        ${!isLast ? `<div class="rm-line ${isDone ? 'done' : isActive ? 'active' : ''}"></div>` : ''}
+      </div>
+      <div class="rm-content">
+        ${isActive ? '<span class="rm-current-badge">you are here</span>' : ''}
+        <div class="rm-week-label ${isActive ? 'active-label' : isDone ? 'done-label' : ''}">${node.weekLabel} · ${dateRange}</div>
+        <div class="rm-title ${!isActive && !isDone ? 'muted' : ''}">${node.title}</div>
+        <div class="rm-changes">
+          ${node.changes.map(c => `
+            <div class="rm-change ${c.type}">
+              <span class="rm-change-icon"></span>
+              <span>${c.text}</span>
+            </div>`).join('')}
+        </div>
+        ${isActive ? `<div class="rm-progress-bar"><div class="rm-progress-fill" style="width:${pct}%"></div></div>` : ''}
+        ${isActive || isDone ? `
+        <div class="rm-am-pm-preview">
+          <div class="rm-routine-card">
+            <div class="rm-routine-card-label">☀ AM</div>
+            ${node.amSteps.map(s => `<div class="rm-routine-step ${s.includes('↑') ? 'highlight' : ''}">${s}</div>`).join('')}
+          </div>
+          <div class="rm-routine-card">
+            <div class="rm-routine-card-label">☽ PM (tret nights)</div>
+            ${node.pmSteps.map(s => `<div class="rm-routine-step ${s.includes('↑') || s === 'wait' ? 'highlight' : ''}">${s}</div>`).join('')}
+          </div>
+        </div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // HOME
@@ -517,36 +1157,162 @@ function renderHome() {
   document.getElementById('timeGreet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
   document.getElementById('dateChip').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
 
-  const type = state.session === 'am' ? 'am' : getTonightType();
-  const r = ROUTINES[type];
+  const isAM = state.session === 'am';
+  const pdrn = getPdrnContext();
+
+  // Resolve tonight type considering PDRN
+  let type;
+  if (pdrn) {
+    if (isAM) {
+      if (pdrn.phase === 'dayof')     type = 'pdrn_dayof_am';
+      else if (pdrn.phase === 'post_1') type = 'pdrn_day1_am';
+      else if (pdrn.phase === 'post_2') type = 'pdrn_day2';
+      else type = 'am';
+    } else {
+      if (pdrn.phase === 'prep_early' || pdrn.phase === 'prep_stop') type = 'pdrn_prep';
+      else if (pdrn.phase === 'dayof') type = 'pdrn_dayof_pm';
+      else if (pdrn.phase === 'post_1') type = 'pdrn_day1_pm';
+      else if (pdrn.phase === 'post_2') type = 'pdrn_day2';
+      else if (pdrn.phase === 'recovery') type = 'pdrn_recovery';
+      else type = getTonightType();
+    }
+  } else {
+    type = isAM ? 'am' : getTonightType();
+  }
+
+  const r = ROUTINES[type] || ROUTINES['barrier'];
+
+  // Dynamic label
+  document.getElementById('tonightLabel').textContent = isAM ? "This morning's routine" : "Tonight's routine";
   document.getElementById('tonightType').textContent = r.label;
   const badge = document.getElementById('tonightBadge');
   badge.className = 'tonight-badge ' + r.badge;
-  badge.textContent = type.toUpperCase();
-  document.getElementById('tonightStepsPreview').innerHTML = r.steps.map(s => `<span class="step-pill">${s.name}</span>`).join('');
+  const badgeLabels = {
+    tret:'Tret night', azel:'Azelaic night', barrier:'Barrier night', lactic:'Lactic night',
+    pdrn_prep:'PDRN prep', pdrn_dayof_am:'PDRN day', pdrn_dayof_pm:'PDRN night',
+    pdrn_day1_am:'Post-PDRN AM', pdrn_day1_pm:'Post-PDRN PM',
+    pdrn_day2:'Post-PDRN day 2', pdrn_recovery:'PDRN recovery', am:'AM',
+  };
+  badge.textContent = badgeLabels[type] || (isAM ? 'AM' : 'PM');
+  // Use getActiveSteps for phase-gated AM, direct steps for everything else
+  const previewSteps = (type === 'am') ? getActiveSteps('am') : (r.steps || []);
+  document.getElementById('tonightStepsPreview').innerHTML = previewSteps.map(s => `<span class="step-pill">${s.name}</span>`).join('');
 
   renderStabBanner();
+  renderPdrnBanner();
   document.getElementById('homeChipPeriod').classList.toggle('active', !!state.todayCycle.period);
   document.getElementById('homeChipBumps').classList.toggle('active', !!state.todayCycle.bumps);
 }
 
+function renderPdrnBanner() {
+  const banner = document.getElementById('pdrnBanner');
+  const label = document.getElementById('pdrnBannerLabel');
+  const text = document.getElementById('pdrnBannerText');
+  const today = todayKey();
+
+  // Find closest upcoming or recent PDRN session
+  let closest = null, closestDiff = Infinity, closestDir = 0;
+  for (const d of state.pdrnSessions) {
+    const diff = daysBetween(today, d); // positive = future, negative = past
+    if (Math.abs(diff) < Math.abs(closestDiff)) { closestDiff = diff; closest = d; closestDir = diff >= 0 ? 1 : -1; }
+  }
+  if (!closest) { banner.style.display = 'none'; return; }
+
+  const daysUntil = closestDiff; // negative = days ago
+  const sessionDate = new Date(closest + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+  let msg = '', lbl = '', show = true;
+
+  if (daysUntil > 10) {
+    show = false; // too far away, don't clutter
+  } else if (daysUntil >= 5) {
+    lbl = 'PDRN prep starting soon';
+    msg = `Session ${sessionDate} — in ${daysUntil} days. Stop fish oil, NSAIDs & strong vitamin C in 2 days.`;
+  } else if (daysUntil >= 3) {
+    lbl = '⚠ PDRN — stop actives now';
+    msg = `Session ${sessionDate} in ${daysUntil} days. Stop tretinoin, AHAs, vitamin C today. Switch to barrier nights only.`;
+  } else if (daysUntil >= 1) {
+    lbl = '⚠ PDRN tomorrow — prep day';
+    msg = `Session tomorrow (${sessionDate}). No alcohol. Sleep elevated tonight. Wash hair in the morning before session.`;
+  } else if (daysUntil === 0) {
+    lbl = '💉 PDRN today — ' + sessionDate;
+    msg = 'Morning: shower + wash hair early. Full hydration routine AM. Strip face by 4:30 PM. No exercise. No alcohol.';
+  } else if (daysUntil >= -1) {
+    lbl = 'PDRN post-care — day 1';
+    msg = 'No tap water on face (use bottled). Avene Cicalfate only. Bare face, no makeup. Sleep elevated.';
+  } else if (daysUntil >= -2) {
+    lbl = 'PDRN post-care — day 2';
+    msg = 'Normal routine can resume (HA, CeraVe, Squalane, SPF). Still no tret, AHA, or vitamin C. Keep away from eye area.';
+  } else if (daysUntil >= -5) {
+    lbl = 'PDRN recovery — resume actives soon';
+    msg = `Day ${Math.abs(daysUntil)} post-session. Resume tret and vitamin C when you hit day 5. Avoid direct eye area.`;
+  } else {
+    show = false;
+  }
+
+  if (!show) { banner.style.display = 'none'; return; }
+  banner.style.display = 'block';
+  label.textContent = lbl;
+  text.textContent = msg;
+}
+
 function renderStabBanner() {
   const elapsed = daysBetween(state.tretStartDate, todayKey());
-  const pct = Math.min(elapsed / STAB_DAYS, 1);
+  // Ring goes to week 8 now (56 days = full arc)
+  const ARC_DAYS = 56;
+  const pct = Math.min(elapsed / ARC_DAYS, 1);
   const circ = 113.1;
   document.getElementById('stabArc').style.strokeDashoffset = circ - (pct * circ);
-  const wk = Math.min(Math.floor(elapsed / 7) + 1, 5);
-  document.getElementById('stabRingText').textContent = elapsed >= STAB_DAYS ? '✓' : `W${wk}`;
+  const wk = Math.min(Math.floor(elapsed / 7) + 1, 9);
+  document.getElementById('stabRingText').textContent = elapsed >= ARC_DAYS ? '✓' : `W${wk}`;
   let status;
-  if (elapsed < 7) status = 'Week 1 — reintroducing tret';
-  else if (elapsed < 14) status = 'Week 2 — building tolerance';
-  else if (elapsed < 21) status = 'Week 3 — skin adjusting';
-  else if (elapsed < 28) status = 'Week 4 — almost stable';
-  else status = 'Stable ✓ Ready to add vitamin C';
+  if (elapsed < 7)       status = 'Wk 1 — reintroducing';
+  else if (elapsed < 14) status = 'Wk 2 — building tolerance';
+  else if (elapsed < 21) status = 'Wk 3 — add 10% urea AM';
+  else if (elapsed < 28) status = 'Wk 4 — add vitamin C every other AM';
+  else if (elapsed < 35) status = 'Wk 5 — vitamin C daily';
+  else if (elapsed < 42) status = 'Wk 6 — monitor barrier for tret-first switch';
+  else if (elapsed < 56) {
+    if (state.barrierReady) status = 'Wk 6–8 — tret-first method active ✓';
+    else status = 'Wk 6–8 — ready to switch? Enable tret-first in settings';
+  }
+  else status = 'Fully dialled in ✓';
   document.getElementById('stabStatus').textContent = status;
 }
 
-function openStabModal() { document.getElementById('stabModal').classList.add('open'); }
+function openStabModal() {
+  document.getElementById('stabModal').classList.add('open');
+  const elapsed = getElapsed();
+  const canSwitch = elapsed >= PHASE.tretDirectUnlocks;
+  const btn = document.getElementById('barrierReadyBtn');
+  const note = document.getElementById('barrierReadyNote');
+  if (state.barrierReady) {
+    btn.textContent = 'Active: tret-first method ✓ — tap to revert to sandwich';
+    btn.style.background = 'rgba(126,207,203,0.15)';
+    btn.style.borderColor = 'var(--tret-color)';
+    note.textContent = 'Tret applied directly, moisturizer after. Revert to sandwich method if any flaking or sensitivity returns.';
+  } else if (canSwitch) {
+    btn.textContent = 'Switch to tret-first method →';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    note.textContent = 'Week 6+ reached. Only enable if your barrier has been stable — no flaking, no sensitivity — for at least 2 consecutive tret nights.';
+  } else {
+    const weeksLeft = Math.ceil((PHASE.tretDirectUnlocks - elapsed) / 7);
+    btn.textContent = `Tret-first unlocks in ~${weeksLeft} week${weeksLeft===1?'':'s'}`;
+    btn.style.background = 'rgba(0,0,0,0.03)';
+    btn.style.color = 'var(--stone)';
+    note.textContent = 'Currently using sandwich method (moisturizer → tret → squalane). Transition to tret-first is available at week 6 if barrier is stable.';
+  }
+}
+
+function toggleBarrierReady() {
+  const elapsed = getElapsed();
+  if (elapsed < PHASE.tretDirectUnlocks) return;
+  state.barrierReady = !state.barrierReady;
+  persist();
+  openStabModal(); // re-render modal state
+  showToast(state.barrierReady ? 'Tret-first method enabled ✓' : 'Reverted to sandwich method');
+}
 function closeStabModal() { document.getElementById('stabModal').classList.remove('open'); }
 function resetStab() {
   state.tretStartDate = todayKey();
@@ -566,26 +1332,181 @@ function toggleHomeCycle(field) {
 }
 
 // ROUTINE
+
+// Returns PDRN context for today: null if no session nearby, or { phase, sessionDate }
+// phase: 'prep_early'(5-3d before), 'prep_stop'(2-1d), 'dayof', 'post_0', 'post_1am', 'post_1pm', 'post_2', 'post_recovery'(3-4d)
+function getPdrnContext(session) {
+  const today = todayKey();
+  let closest = null, closestDiff = Infinity;
+  const sessions = session ? [session] : state.pdrnSessions;
+  for (const d of sessions) {
+    const diff = daysBetween(today, d); // positive = future
+    if (Math.abs(diff) < Math.abs(closestDiff)) { closestDiff = diff; closest = d; }
+  }
+  if (!closest) return null;
+  const diff = closestDiff;
+  const dateStr = new Date(closest + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  if (diff > 5 || diff < -5) return null;
+  let phase;
+  if (diff >= 3 && diff <= 5)  phase = 'prep_early';   // 5-3 days before: heads-up, switch to barrier
+  else if (diff >= 1 && diff <= 2) phase = 'prep_stop'; // 2-1 days before: stop all actives
+  else if (diff === 0)          phase = 'dayof';
+  else if (diff === -1)         phase = 'post_1';       // day after
+  else if (diff === -2)         phase = 'post_2';       // day 2 post
+  else if (diff >= -5)          phase = 'recovery';     // days 3-5 post
+  else return null;
+  return { phase, diff, dateStr };
+}
+
 function startRoutine() {
-  state.currentType = state.session === 'am' ? 'am' : getTonightType();
+  const isAM = state.session === 'am';
+  const pdrn = getPdrnContext();
+
+  // Resolve type — PDRN overrides normal schedule
+  let resolvedType;
+  if (pdrn) {
+    if (isAM) {
+      if (pdrn.phase === 'dayof')     resolvedType = 'pdrn_dayof_am';
+      else if (pdrn.phase === 'post_1') resolvedType = 'pdrn_day1_am';
+      else if (pdrn.phase === 'post_2') resolvedType = 'pdrn_day2';
+      else resolvedType = 'am'; // prep days: normal AM
+    } else {
+      if (pdrn.phase === 'prep_early' || pdrn.phase === 'prep_stop') resolvedType = 'pdrn_prep';
+      else if (pdrn.phase === 'dayof') resolvedType = 'pdrn_dayof_pm';
+      else if (pdrn.phase === 'post_1') resolvedType = 'pdrn_day1_pm';
+      else if (pdrn.phase === 'post_2') resolvedType = 'pdrn_day2';
+      else if (pdrn.phase === 'recovery') resolvedType = 'pdrn_recovery';
+      else resolvedType = getTonightType();
+    }
+  } else {
+    resolvedType = isAM ? 'am' : getTonightType();
+  }
+
+  state.currentType = resolvedType;
   state.checkedSteps = {};
   state.dapsoneAdded = false;
-  const r = ROUTINES[state.currentType];
+
+  // Notify user of newly unlocked features (once per session key)
+  const elapsed = getElapsed();
+  const unlockKey = `unlockNotified_${state.tretStartDate}`;
+  const notified = JSON.parse(localStorage.getItem(unlockKey) || '{}');
+  if (elapsed >= PHASE.vitCUnlocks && elapsed < PHASE.vitCDailyUnlocks && !notified.vitC_alt && resolvedType === 'am') {
+    showToast('✨ Vitamin C unlocked — every other AM now');
+    notified.vitC_alt = true; localStorage.setItem(unlockKey, JSON.stringify(notified));
+  } else if (elapsed >= PHASE.vitCDailyUnlocks && elapsed < PHASE.tretDirectUnlocks && !notified.vitC_daily && resolvedType === 'am') {
+    showToast('✨ Vitamin C every morning now');
+    notified.vitC_daily = true; localStorage.setItem(unlockKey, JSON.stringify(notified));
+  } else if (elapsed >= PHASE.urea10AmUnlocks && elapsed < PHASE.vitCUnlocks && !notified.urea10 && resolvedType === 'am') {
+    showToast('✨ Switched to 10% urea AM');
+    notified.urea10 = true; localStorage.setItem(unlockKey, JSON.stringify(notified));
+  }
+
+  const r = ROUTINES[resolvedType] || ROUTINES['barrier'];
   document.getElementById('routineTitle').textContent = r.label;
-  document.getElementById('routineSessionLabel').textContent = state.session === 'am' ? '☀ Morning session' : '☽ Evening session';
-  document.getElementById('lacticNote').style.display = state.currentType === 'lactic' ? 'block' : 'none';
-  // AM: show mark-all banner; PM: show dapsone option on tret/azel nights
-  document.getElementById('markAllBanner').style.display = state.currentType === 'am' ? 'block' : 'none';
-  const showDapsone = ['tret','azel'].includes(state.currentType);
+
+  // Session label — add PDRN context if relevant
+  let sessLabel = isAM ? '☀ Morning session' : '☽ Evening session';
+  if (pdrn) sessLabel += ` · PDRN ${pdrn.diff === 0 ? 'today' : pdrn.diff > 0 ? 'in ' + pdrn.diff + 'd' : Math.abs(pdrn.diff) + 'd post'} (${pdrn.dateStr})`;
+  document.getElementById('routineSessionLabel').textContent = sessLabel;
+
+  document.getElementById('lacticNote').style.display = resolvedType === 'lactic' ? 'block' : 'none';
+
+  // PDRN note banner
+  let pdrnRoutineNote = document.getElementById('pdrnRoutineNote');
+  if (!pdrnRoutineNote) {
+    pdrnRoutineNote = document.createElement('div');
+    pdrnRoutineNote.id = 'pdrnRoutineNote';
+    pdrnRoutineNote.style.cssText = 'margin:0 24px 16px;background:rgba(126,207,203,0.1);border-radius:10px;padding:12px 14px;font-size:10px;letter-spacing:0.04em;color:var(--bark);line-height:1.6;border-left:2px solid var(--tret-color);display:none;';
+    document.getElementById('lacticNote').insertAdjacentElement('afterend', pdrnRoutineNote);
+  }
+  const pdrnNotes = {
+    prep_early: `PDRN in ${pdrn?.diff}d (${pdrn?.dateStr}) — barrier nights only. Stop fish oil + NSAIDs. Use 5% urea (not 10%) on under-eyes + upper cheeks from now.`,
+    prep_stop:  `PDRN tomorrow (${pdrn?.dateStr}) — stop all actives. Barrier only. No alcohol. 5% urea only on under-eyes + upper cheeks (no 10% within 24h of session).`,
+    dayof:      isAM ? `PDRN today (${pdrn?.dateStr}) — shower + wash hair now. Full hydration AM. Strip face by 4:30 PM.`
+                     : `Post-injection: nothing on face tonight. Cold compress only. Sleep elevated on back.`,
+    post_1:     isAM ? `Day 1 post-PDRN — no tap water. Avene Cicalfate only today.`
+                     : `Day 1 evening — Cicalfate + topical arnica gel now safe (channels sealed). Sleep elevated.`,
+    post_2:     `Day 2 post-PDRN — normal routine resumes. Still no tret or vitamin C until day 3–5.`,
+    recovery:   `Day ${Math.abs(pdrn?.diff)} post-PDRN — barrier nights until day 5. Resume tret + vitamin C then.`,
+  };
+  if (pdrn && pdrnNotes[pdrn.phase]) {
+    pdrnRoutineNote.textContent = pdrnNotes[pdrn.phase];
+    pdrnRoutineNote.style.display = 'block';
+  } else {
+    pdrnRoutineNote.style.display = 'none';
+  }
+
+  // Mark-all banner only for AM non-PDRN
+  document.getElementById('markAllBanner').style.display = (isAM && !resolvedType.startsWith('pdrn')) ? 'block' : 'none';
+  const showDapsone = ['tret','azel'].includes(resolvedType);
   document.getElementById('dapsoneRow').style.display = showDapsone ? 'block' : 'none';
   renderSteps();
   showScreen('routine');
 }
 
-function getActiveSteps() {
-  const base = [...ROUTINES[state.currentType].steps];
-  if (state.dapsoneAdded) base.push({ name: 'Dapsone', note: 'Flare night — apply after azelaic or tret, before moisturizer' });
-  return base;
+function getElapsed() {
+  return daysBetween(state.tretStartDate || todayKey(), todayKey());
+}
+
+function getActiveSteps(typeOverride) {
+  const elapsed = getElapsed();
+  const resolvedType = typeOverride || state.currentType;
+  let steps;
+
+  if (resolvedType === 'am') {
+    // Build AM steps based on phase
+    const ureaLabel = elapsed >= PHASE.urea10AmUnlocks ? '10% urea moisturizer' : '5% urea moisturizer';
+    const ureaNote = elapsed >= PHASE.urea10AmUnlocks
+      ? 'Now using 10% — full AM switch at week 3'
+      : 'Still on 5% AM for now — switch to 10% at week 3';
+    steps = [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Azelaic acid', note: 'Anti-redness + pigment' },
+      { name: ureaLabel, note: ureaNote },
+      { name: 'Mineral sunscreen', note: 'Every day — wait 10–15 min before makeup' },
+    ];
+    // Vitamin C: unlocks at week 4, inserts before azelaic
+    if (elapsed >= PHASE.vitCUnlocks) {
+      const vitCNote = elapsed >= PHASE.vitCDailyUnlocks
+        ? 'Daily now — apply before azelaic'
+        : 'Every other morning still — apply before azelaic';
+      steps.splice(1, 0, { name: 'Vitamin C serum', note: vitCNote });
+    }
+  } else if (resolvedType === 'tret') {
+    // Sandwich (default) vs direct (unlocked at wk 6–8 if barrierReady)
+    const useDirect = state.barrierReady && elapsed >= PHASE.tretDirectUnlocks;
+    const ureaLabel = '10% urea moisturizer';
+    if (useDirect) {
+      steps = [
+        { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+        { name: 'Tretinoin 0.1%', note: 'Pea-sized amount, avoid eye area. Wait a few minutes' },
+        { name: ureaLabel, note: 'Applied after tret — no longer sandwiching' },
+        { name: 'Squalane', note: 'Optional — seal on top' },
+      ];
+    } else {
+      steps = [
+        { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+        { name: ureaLabel, note: 'Sandwich base — thin layer, wait a few minutes before tret' },
+        { name: 'Tretinoin 0.1%', note: 'Pea-sized amount, avoid eye area' },
+        { name: 'Squalane', note: 'Optional — seal on top' },
+      ];
+    }
+  } else if (resolvedType === 'azel') {
+    steps = [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser' },
+      { name: 'Azelaic acid', note: 'For redness, PIE, pigmentation' },
+      { name: '10% urea moisturizer', note: 'Lock it in' },
+    ];
+  } else {
+    steps = [...ROUTINES[resolvedType].steps];
+    // Normalize urea label for barrier/lactic
+    steps = steps.map(s => s.name === 'Urea moisturizer'
+      ? { ...s, name: '10% urea moisturizer' }
+      : s);
+  }
+
+  if (state.dapsoneAdded) steps.push({ name: 'Dapsone', note: 'Flare night — apply after azelaic or tret, before moisturizer' });
+  return steps;
 }
 
 function renderSteps() {
@@ -625,9 +1546,17 @@ function updateProgress() {
   const total = getActiveSteps().length;
   const done = Object.values(state.checkedSteps).filter(Boolean).length;
   document.getElementById('progressFill').style.width = (done / total * 100) + '%';
-  // AM: always ready (mark all handles it); PM: require all checked
-  const isAm = state.currentType === 'am';
-  document.getElementById('completeBtn').classList.toggle('ready', isAm || done === total);
+  // Color bar to match routine type
+  const barColors = { tret:'var(--tret-color)', azel:'var(--azel-color)', barrier:'var(--barrier-color)', lactic:'var(--lactic-color)', am:'var(--pale-green)' };
+  const baseType = state.currentType?.replace('tret_direct','tret').split('_')[0] || 'tret';
+  document.getElementById('progressFill').style.background = barColors[baseType] || 'var(--tret-color)';
+  // AM: always ready; PM: require all checked
+  const isAm = state.currentType === 'am' || state.currentType?.startsWith('pdrn_dayof_am') || state.currentType?.startsWith('pdrn_day1_am');
+  const remaining = total - done;
+  const btn = document.getElementById('completeBtn');
+  const ready = isAm || done === total;
+  btn.classList.toggle('ready', ready);
+  btn.textContent = ready ? 'Mark as done ✓' : `${remaining} step${remaining === 1 ? '' : 's'} remaining`;
 }
 
 function markComplete() {
@@ -784,6 +1713,38 @@ function saveCycleDay() {
 }
 
 renderHome();
+
+// PDRN interactive checklist
+function togglePdrnCheck(el) {
+  el.classList.toggle('checked');
+  savePdrnChecks();
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function clearPdrnChecks(group) {
+  document.querySelectorAll(`.pdrn-check[data-group="${group}"]`).forEach(el => el.classList.remove('checked'));
+  savePdrnChecks();
+}
+
+function savePdrnChecks() {
+  const result = {};
+  document.querySelectorAll('.pdrn-check').forEach(el => {
+    const key = el.dataset.group + '_' + el.dataset.idx;
+    result[key] = el.classList.contains('checked');
+  });
+  try { localStorage.setItem('pdrn_checks', JSON.stringify(result)); } catch(e) {}
+}
+
+function restorePdrnChecks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('pdrn_checks') || '{}');
+    document.querySelectorAll('.pdrn-check').forEach(el => {
+      const key = el.dataset.group + '_' + el.dataset.idx;
+      if (saved[key]) el.classList.add('checked');
+    });
+  } catch(e) {}
+}
+restorePdrnChecks();
 </script>
 </body>
 </html>
