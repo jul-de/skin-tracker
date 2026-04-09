@@ -374,6 +374,15 @@
 
   .rm-routine-step.highlight { color: var(--tret-color); font-weight: 400; }
 
+  /* PEEL TIMER */
+  .peel-timer-section { margin:0 24px 16px; background:rgba(200,232,216,0.18); border:1px solid rgba(200,232,216,0.4); border-radius:14px; padding:18px; text-align:center; }
+  .peel-timer-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--bark); margin-bottom:8px; }
+  .peel-timer-display { font-family:'Cormorant Garamond',serif; font-size:52px; font-weight:300; color:var(--ink); line-height:1; margin-bottom:12px; letter-spacing:-1px; }
+  .peel-timer-display.done { color:var(--sage); }
+  .peel-timer-btn { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; padding:11px 24px; border-radius:10px; border:none; cursor:pointer; background:var(--ink); color:var(--cream); transition:all 0.2s; }
+  .peel-timer-btn.running { background:rgba(0,0,0,0.07); color:var(--clay); }
+  .peel-timer-btn.finished { background:var(--lactic-color); color:var(--ink); }
+
   /* PDRN CHECKLIST */
   .pdrn-checklist { display:flex; flex-direction:column; gap:2px; }
   .pdrn-check { display:flex; align-items:flex-start; gap:12px; padding:10px 0; cursor:pointer; border-bottom:1px solid rgba(0,0,0,0.04); -webkit-tap-highlight-color:transparent; }
@@ -384,6 +393,38 @@
   .pdrn-check-text { font-size:11px; color:var(--clay); line-height:1.5; letter-spacing:0.03em; transition:opacity 0.2s; }
   .pdrn-check.checked .pdrn-check-text { opacity:0.4; text-decoration:line-through; }
   .pdrn-clear { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--stone); background:none; border:none; cursor:pointer; padding:4px 0 0; }
+
+  /* PLAN SCREEN — date editing for PDRN + peels */
+  .plan-row { background:rgba(255,255,255,0.03); border-radius:12px; padding:14px 16px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.05); transition:border-color 0.2s; }
+  .plan-row.has-error { border-color:rgba(200,80,60,0.35); background:rgba(200,80,60,0.03); }
+  .plan-row.has-warn { border-color:rgba(200,150,50,0.3); }
+  .plan-row.skipped { opacity:0.38; }
+  .plan-row-header { display:flex; align-items:center; gap:8px; }
+  .plan-row-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--bark); flex:1; min-width:0; }
+  .plan-row-label.struck { text-decoration:line-through; color:var(--stone); }
+  .plan-date-input { font-family:'DM Mono',monospace; font-size:10px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:var(--cream); padding:6px 8px; cursor:pointer; -webkit-appearance:none; appearance:none; min-width:0; width:116px; flex-shrink:0; }
+  .plan-date-input:focus { outline:none; border-color:rgba(255,255,255,0.3); }
+  .plan-date-input:disabled { opacity:0.3; cursor:default; }
+  .plan-skip-btn { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; border-radius:7px; border:1px solid rgba(255,255,255,0.1); background:none; color:var(--stone); cursor:pointer; white-space:nowrap; flex-shrink:0; -webkit-tap-highlight-color:transparent; }
+  .plan-skip-btn.active { background:rgba(200,80,60,0.12); border-color:rgba(200,80,60,0.3); color:var(--clay); }
+  .plan-remove-btn { font-size:16px; line-height:1; padding:4px 6px; border-radius:6px; border:none; background:none; color:var(--stone); cursor:pointer; flex-shrink:0; }
+  .plan-cascade-btn { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.1em; text-transform:uppercase; padding:4px 8px; border-radius:6px; border:1px solid rgba(200,232,216,0.25); background:rgba(200,232,216,0.06); color:var(--sage); cursor:pointer; flex-shrink:0; white-space:nowrap; }
+  .plan-conflict-list { margin-top:8px; display:flex; flex-direction:column; gap:4px; }
+  .plan-conflict { padding:7px 10px; border-radius:7px; font-size:10px; letter-spacing:0.03em; line-height:1.5; }
+  .plan-conflict.error { background:rgba(200,80,60,0.1); color:var(--clay); border-left:2px solid var(--clay); }
+  .plan-conflict.warn { background:rgba(200,150,50,0.1); color:#b8922a; border-left:2px solid #b8922a; }
+  .plan-add-btn { width:100%; padding:12px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; background:transparent; border:1px dashed rgba(255,255,255,0.12); border-radius:10px; color:var(--stone); cursor:pointer; margin-top:4px; display:block; }
+  .sched-warn-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--clay); margin-left:6px; vertical-align:middle; flex-shrink:0; opacity:0.85; }
+  /* Schedule — override display */
+  .sched-override-cell { flex:1; min-width:0; }
+  .sched-override-badge { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; padding:3px 7px; border-radius:5px; display:inline-block; margin-bottom:5px; }
+  .sched-override-badge.peel { background:rgba(200,232,216,0.18); color:var(--sage); }
+  .sched-override-badge.pdrn { background:rgba(126,207,203,0.15); color:var(--tret-color); }
+  .sched-override-name { font-size:13px; color:var(--ink); letter-spacing:0.01em; line-height:1.3; }
+  .sched-override-reason { font-size:9px; color:var(--bark); letter-spacing:0.04em; margin-top:3px; line-height:1.4; }
+  .sched-override-base { font-size:9px; color:var(--stone); letter-spacing:0.03em; margin-top:4px; opacity:0.7; }
+  .day-row.overridden-peel { background:rgba(200,232,216,0.05); border-radius:10px; }
+  .day-row.overridden-pdrn { background:rgba(126,207,203,0.05); border-radius:10px; }
 
   /* TOAST */
   .toast { position:fixed; bottom:calc(env(safe-area-inset-bottom,20px) + 90px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--cream); font-size:11px; letter-spacing:0.08em; padding:12px 20px; border-radius:30px; opacity:0; transition:all 0.3s; pointer-events:none; white-space:nowrap; z-index:100; }
@@ -431,6 +472,12 @@
     <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--cream);line-height:1.4;" id="pdrnBannerText">—</div>
   </div>
 
+  <!-- Peel alert banner -->
+  <div id="peelBanner" style="display:none; margin:12px 0 0; border-radius:12px; padding:14px 16px; border:1px solid rgba(200,232,216,0.35); background:rgba(200,232,216,0.1);">
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--sage);margin-bottom:5px;" id="peelBannerLabel">Peel</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--cream);line-height:1.4;" id="peelBannerText">—</div>
+  </div>
+
   <div class="tonight-card">
     <div class="tonight-label" id="tonightLabel">Tonight's routine</div>
     <div class="tonight-type" id="tonightType">—</div>
@@ -461,6 +508,14 @@
   </div>
   <div class="steps-list" id="stepsList"></div>
   <div id="lacticNote" class="lactic-note" style="display:none">⚠ Lactic acid night — skip tret the night before and after. Use once every 2–3 weeks.</div>
+  <!-- Peel timer (shown on peel_night) -->
+  <div id="peelTimerSection" style="display:none;">
+    <div class="peel-timer-section">
+      <div class="peel-timer-label" id="peelTimerLabel">Week 1 — 3 min</div>
+      <div class="peel-timer-display" id="peelTimerDisplay">3:00</div>
+      <button class="peel-timer-btn" id="peelTimerBtn" onclick="togglePeelTimer()">Start timer</button>
+    </div>
+  </div>
   <!-- Dapsone add button (shown during flares) -->
   <div id="dapsoneRow" style="display:none; padding:0 24px 16px;">
     <button id="dapsoneBtn" onclick="toggleDapsone()" style="width:100%;padding:12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;background:transparent;color:var(--clay);border:1px dashed rgba(0,0,0,0.15);border-radius:10px;cursor:pointer;">+ Add dapsone (flare night)</button>
@@ -516,16 +571,26 @@
 </div>
 
 
-<!-- PDRN SCREEN -->
+<!-- PLAN SCREEN (PDRN + Peel schedule management) -->
 <div class="screen" id="pdrnscreen">
   <div class="cycle-header">
-    <h2>PDRN sessions</h2>
-    <div class="sub">Juve Eyes under-eye · pre + post care reminders auto-appear on home screen</div>
+    <h2>Plan</h2>
+    <div class="sub">Edit PDRN &amp; peel dates · changes cascade everywhere</div>
   </div>
   <div class="cycle-body">
+
     <div class="cycle-section">
-      <div class="cycle-section-title">Scheduled sessions</div>
+      <div class="cycle-section-title" style="display:flex;justify-content:space-between;align-items:center;">
+        Peel schedule (mandelic)
+        <button class="plan-cascade-btn" onclick="reschedulePeelsFrom()">Reschedule from…</button>
+      </div>
+      <div id="peelScheduleList"></div>
+    </div>
+
+    <div class="cycle-section">
+      <div class="cycle-section-title">PDRN sessions</div>
       <div id="pdrnSessionList"></div>
+      <button class="plan-add-btn" onclick="addPdrnSession()">+ Add PDRN session</button>
     </div>
 
     <div class="cycle-section">
@@ -631,8 +696,8 @@
     <span class="bnav-label">Cycle</span>
   </button>
   <button class="bnav-btn" id="nav-pdrnscreen" onclick="showScreen('pdrnscreen')">
-    <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
-    <span class="bnav-label">PDRN</span>
+    <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+    <span class="bnav-label">Plan</span>
   </button>
   <button class="bnav-btn" id="nav-roadmap" onclick="showScreen('roadmap')">
     <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 17 13 8 8 13 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
@@ -753,6 +818,41 @@ const ROUTINES = {
       { name: 'Squalane', note: 'Optional' },
     ]
   },
+  // ── Mandelic acid peel routines ──
+  peel_prep: {
+    label: 'Barrier night (peel prep)', badge: 'badge-barrier',
+    steps: [
+      { name: 'Cleanse', note: 'Gentle cleanser only — no acid cleanser' },
+      { name: 'CeraVe PM', note: 'Barrier only tonight — no tret, no urea, no actives at all' },
+      { name: 'Squalane', note: 'Optional seal' },
+    ]
+  },
+  peel_night: {
+    label: 'Mandelic acid peel', badge: 'badge-lactic',
+    steps: [
+      { name: 'Cleanse', note: 'Vanicream or gentle cleanser — no acid cleanser' },
+      { name: 'Wait — skin must be bone-dry', note: 'Pat dry and wait 5–10 min. Water drives acid in faster and causes uneven penetration and irritation.' },
+      { name: 'Apply 25% mandelic acid', note: 'Thin even layers via gauze/cotton pad — forehead → perimeter → nose → cheeks → chin. Avoid eye area and lips. Swipe, do not rub.' },
+      { name: 'Start the peel timer ↑', note: 'See timer above. Do not exceed your week\'s time — mandelic is stealthy and penetrates slowly even when it feels like nothing is happening.' },
+      { name: 'Rinse thoroughly', note: 'Cool-to-lukewarm water for 1–2 min. One more gentle cleanse to remove all traces.' },
+      { name: 'CeraVe PM', note: 'Bland moisturizer only tonight — no fragrance, no vitamin C, no retinol. Squalane optional.' },
+    ]
+  },
+  peel_post_am: {
+    label: 'Post-peel AM (boring only)', badge: 'badge-am',
+    steps: [
+      { name: 'Gentle cleanse', note: 'Vanicream only — no active cleanser' },
+      { name: 'CeraVe PM', note: 'Only this for now — no urea yet' },
+      { name: 'Mineral SPF', note: 'Mandatory — freshly exfoliated skin is highly UV sensitive. Skipping risks hyperpigmentation.' },
+    ]
+  },
+  peel_post_pm: {
+    label: 'Post-peel PM (24h)', badge: 'badge-barrier',
+    steps: [
+      { name: 'Gentle cleanse', note: 'Vanicream only' },
+      { name: 'CeraVe PM', note: 'Boring routine only. No urea, no actives tonight.' },
+    ]
+  },
 };
 
 // Phase thresholds (days from tretStartDate)
@@ -770,6 +870,22 @@ const STAB_DAYS = 28;
 // PDRN session dates (ISO strings)
 const PDRN_SESSIONS = ['2026-04-21', '2026-05-19'];
 
+// Mandelic acid peel schedule — every Sunday starting Apr 12
+const PEEL_START = '2026-04-12';
+const PEEL_SCHEDULE = [3,4,5,6,7,8,8,8,8,8]; // minutes by week (weeks 1–10, plateau at 8)
+
+function _mkDateKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function generateDefaultPeelSessions() {
+  const start = new Date(PEEL_START + 'T12:00:00');
+  return PEEL_SCHEDULE.map((_, i) => {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i * 7);
+    return { date: _mkDateKey(d), skipped: false };
+  });
+}
+
 let state = {
   session: 'pm',
   checkedSteps: {},
@@ -780,7 +896,8 @@ let state = {
   tretStartDate: null,
   todayCycle: { period: false, bumps: false },
   pdrnSessions: [...PDRN_SESSIONS],
-  barrierReady: false,  // set to true manually when skin tolerates tret-first at wk 6–8
+  peelSessions: generateDefaultPeelSessions(),
+  barrierReady: false,
 };
 
 try {
@@ -792,6 +909,7 @@ try {
     if (p.cycleLog) state.cycleLog = p.cycleLog;
     if (p.tretStartDate) state.tretStartDate = p.tretStartDate;
     if (p.pdrnSessions) state.pdrnSessions = p.pdrnSessions;
+    if (p.peelSessions && p.peelSessions.length === PEEL_SCHEDULE.length) state.peelSessions = p.peelSessions;
     if (p.barrierReady !== undefined) state.barrierReady = p.barrierReady;
     const tk = todayKey();
     if (p.cycleLog && p.cycleLog[tk]) state.todayCycle = { ...p.cycleLog[tk] };
@@ -800,7 +918,7 @@ try {
 } catch(e) {}
 
 function persist() {
-  try { localStorage.setItem('skin_v2', JSON.stringify({ schedule: state.schedule, completedDays: state.completedDays, cycleLog: state.cycleLog, tretStartDate: state.tretStartDate, pdrnSessions: state.pdrnSessions, barrierReady: state.barrierReady })); } catch(e) {}
+  try { localStorage.setItem('skin_v2', JSON.stringify({ schedule: state.schedule, completedDays: state.completedDays, cycleLog: state.cycleLog, tretStartDate: state.tretStartDate, pdrnSessions: state.pdrnSessions, peelSessions: state.peelSessions, barrierReady: state.barrierReady })); } catch(e) {}
 }
 
 function todayKey() {
@@ -849,25 +967,193 @@ function showScreen(id) {
 }
 
 
-// PDRN SCREEN
+// PLAN SCREEN — conflict detection
+function getPeelConflicts(dateStr, excludeIdx) {
+  const conflicts = [];
+  for (const sess of state.pdrnSessions) {
+    const gap = Math.abs(daysBetween(dateStr, sess));
+    if (gap <= 3) {
+      const label = new Date(sess + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+      conflicts.push({ level:'error', msg:`PDRN session (${label}) is ${gap === 0 ? 'the same day' : gap + ' day' + (gap===1?'':'s') + ' away'} — AHAs banned within 3 days of PDRN` });
+    }
+  }
+  state.peelSessions.forEach((sess, i) => {
+    if (i === excludeIdx || sess.skipped) return;
+    const gap = Math.abs(daysBetween(dateStr, sess.date));
+    if (gap > 0 && gap < 7) {
+      const label = new Date(sess.date + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+      conflicts.push({ level:'error', msg:`Only ${gap} day${gap===1?'':'s'} from peel wk ${i+1} (${label}) — minimum 7 days between sessions` });
+    }
+  });
+  const prev = new Date(dateStr + 'T12:00:00');
+  prev.setDate(prev.getDate() - 1);
+  const prevKey = dateKey(prev);
+  const prevType = state.completedDays[prevKey]?.pm?.type;
+  if (prevType === 'tret' || prevType === 'tret_direct') {
+    conflicts.push({ level:'error', msg:'Tretinoin was logged the previous night — skin too sensitized for chemical exfoliation' });
+  }
+  if (daysBetween(dateStr, todayKey()) > 0) conflicts.push({ level:'warn', msg:'This date is in the past' });
+  return conflicts;
+}
+
+function getPdrnConflicts(dateStr, excludeIdx) {
+  const conflicts = [];
+  state.peelSessions.forEach((sess, i) => {
+    if (sess.skipped) return;
+    const gap = Math.abs(daysBetween(dateStr, sess.date));
+    if (gap <= 3) {
+      const label = new Date(sess.date + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+      conflicts.push({ level:'error', msg:`Peel wk ${i+1} (${label}) is ${gap === 0 ? 'the same day' : gap + ' day' + (gap===1?'':'s') + ' away'} — no AHAs within 3 days of PDRN` });
+    }
+  });
+  state.pdrnSessions.forEach((sess, i) => {
+    if (i === excludeIdx) return;
+    const gap = Math.abs(daysBetween(dateStr, sess));
+    if (gap < 21) {
+      const label = new Date(sess + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+      conflicts.push({ level:'warn', msg:`Only ${gap} day${gap===1?'':'s'} from PDRN session ${i+1} (${label}) — 3+ weeks recommended` });
+    }
+  });
+  return conflicts;
+}
+
 function renderPdrnScreen() {
+  renderPdrnSessionList();
+  renderPeelScheduleList();
+}
+
+function renderPdrnSessionList() {
   const list = document.getElementById('pdrnSessionList');
+  if (!list) return;
   const today = todayKey();
+  if (!state.pdrnSessions.length) {
+    list.innerHTML = '<div style="font-size:11px;color:var(--stone);padding:8px 0;">No sessions scheduled</div>';
+    return;
+  }
   list.innerHTML = state.pdrnSessions.map((d, i) => {
     const diff = daysBetween(today, d);
-    const dateStr = new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
-    let status = '', statusColor = 'var(--clay)';
-    if (diff > 0) { status = `in ${diff} day${diff===1?'':'s'}`; statusColor = diff <= 5 ? 'var(--tret-color)' : 'var(--sage)'; }
-    else if (diff === 0) { status = 'today'; statusColor = 'var(--tret-color)'; }
-    else { status = `${Math.abs(diff)} days ago`; statusColor = 'var(--stone)'; }
-    return `<div style="padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;">Session ${i+1}</div>
-        <div style="font-size:11px;color:var(--clay);margin-top:3px;letter-spacing:0.03em;">${dateStr}</div>
+    let timing = diff > 0 ? `in ${diff}d` : diff === 0 ? 'today' : `${Math.abs(diff)}d ago`;
+    const timingColor = diff > 0 && diff <= 5 ? 'var(--tret-color)' : diff === 0 ? 'var(--tret-color)' : diff < 0 ? 'var(--stone)' : 'var(--sage)';
+    const conflicts = getPdrnConflicts(d, i);
+    const hasError = conflicts.some(c => c.level === 'error');
+    const hasWarn = !hasError && conflicts.some(c => c.level === 'warn');
+    const conflictHtml = conflicts.map(c => `<div class="plan-conflict ${c.level}">${c.msg}</div>`).join('');
+    return `
+    <div class="plan-row ${hasError ? 'has-error' : hasWarn ? 'has-warn' : ''}">
+      <div class="plan-row-header">
+        <div class="plan-row-label">Session ${i+1} <span style="color:${timingColor};font-size:9px;">${timing}</span></div>
+        <input type="date" class="plan-date-input" value="${d}" onchange="updatePdrnDate(${i}, this.value)">
+        <button class="plan-remove-btn" onclick="removePdrnSession(${i})" title="Remove">×</button>
       </div>
-      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:${statusColor};">${status}</div>
+      ${conflictHtml ? `<div class="plan-conflict-list">${conflictHtml}</div>` : ''}
     </div>`;
-  }).join('') || '<div style="font-size:11px;color:var(--stone);padding:12px 0;">No sessions scheduled</div>';
+  }).join('');
+}
+
+function renderPeelScheduleList() {
+  const list = document.getElementById('peelScheduleList');
+  if (!list) return;
+  const today = todayKey();
+  list.innerHTML = state.peelSessions.map((sess, i) => {
+    const mins = PEEL_SCHEDULE[Math.min(i, PEEL_SCHEDULE.length - 1)];
+    const diff = daysBetween(today, sess.date);
+    let timing = diff > 0 ? `in ${diff}d` : diff === 0 ? 'today' : `${Math.abs(diff)}d ago`;
+    const dayName = new Date(sess.date + 'T12:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const conflicts = sess.skipped ? [] : getPeelConflicts(sess.date, i);
+    const hasError = conflicts.some(c => c.level === 'error');
+    const hasWarn = !hasError && conflicts.some(c => c.level === 'warn');
+    const conflictHtml = conflicts.map(c => `<div class="plan-conflict ${c.level}">${c.msg}</div>`).join('');
+    const isLast = i === state.peelSessions.length - 1;
+    return `
+    <div class="plan-row ${sess.skipped ? 'skipped' : hasError ? 'has-error' : hasWarn ? 'has-warn' : ''}">
+      <div class="plan-row-header">
+        <div class="plan-row-label ${sess.skipped ? 'struck' : ''}">Wk ${i+1} · ${mins} min <span style="font-size:9px;opacity:0.6;">${dayName}</span></div>
+        <input type="date" class="plan-date-input" value="${sess.date}" onchange="updatePeelDate(${i}, this.value)" ${sess.skipped ? 'disabled' : ''}>
+        ${!isLast ? `<button class="plan-cascade-btn" onclick="cascadePeelsFrom(${i})" title="Shift weeks ${i+2}–${state.peelSessions.length} to maintain 7-day spacing from this date">→</button>` : ''}
+        <button class="plan-skip-btn ${sess.skipped ? 'active' : ''}" onclick="togglePeelSkip(${i})">${sess.skipped ? 'Skipped' : 'Skip'}</button>
+      </div>
+      ${!sess.skipped && conflictHtml ? `<div class="plan-conflict-list">${conflictHtml}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// PDRN editing actions
+function updatePdrnDate(idx, newDate) {
+  if (!newDate) return;
+  state.pdrnSessions[idx] = newDate;
+  state.pdrnSessions.sort();
+  persist();
+  renderPdrnSessionList();
+  renderHome();
+  if (document.getElementById('roadmapBody').innerHTML) renderRoadmap();
+}
+
+function addPdrnSession() {
+  const last = state.pdrnSessions[state.pdrnSessions.length - 1];
+  const base = last ? new Date(last + 'T12:00:00') : new Date();
+  base.setDate(base.getDate() + 28);
+  state.pdrnSessions.push(dateKey(base));
+  state.pdrnSessions.sort();
+  persist();
+  renderPdrnSessionList();
+  showToast('PDRN session added');
+}
+
+function removePdrnSession(idx) {
+  if (state.pdrnSessions.length <= 1 && !confirm('Remove the only PDRN session?')) return;
+  state.pdrnSessions.splice(idx, 1);
+  persist();
+  renderPdrnSessionList();
+  renderPeelScheduleList(); // conflicts may change
+  renderHome();
+  showToast('Session removed');
+}
+
+// Peel editing actions
+function updatePeelDate(idx, newDate) {
+  if (!newDate) return;
+  state.peelSessions[idx].date = newDate;
+  persist();
+  renderPeelScheduleList();
+  renderHome();
+}
+
+function togglePeelSkip(idx) {
+  state.peelSessions[idx].skipped = !state.peelSessions[idx].skipped;
+  persist();
+  renderPeelScheduleList();
+  renderHome();
+  if (navigator.vibrate) navigator.vibrate(8);
+  showToast(state.peelSessions[idx].skipped ? 'Peel week ' + (idx+1) + ' skipped' : 'Peel week ' + (idx+1) + ' restored');
+}
+
+function cascadePeelsFrom(idx) {
+  // Shift all sessions after idx so they're exactly 7 days apart from this one
+  const baseDate = new Date(state.peelSessions[idx].date + 'T12:00:00');
+  for (let i = idx + 1; i < state.peelSessions.length; i++) {
+    const d = new Date(baseDate);
+    d.setDate(d.getDate() + (i - idx) * 7);
+    state.peelSessions[i].date = dateKey(d);
+  }
+  persist();
+  renderPeelScheduleList();
+  renderHome();
+  showToast(`Weeks ${idx+2}–${state.peelSessions.length} rescheduled`);
+}
+
+function reschedulePeelsFrom() {
+  // Find the earliest future non-skipped peel and use its index
+  const today = todayKey();
+  let startIdx = state.peelSessions.findIndex(s => !s.skipped && daysBetween(today, s.date) >= 0);
+  if (startIdx === -1) startIdx = 0;
+  const newStart = prompt(
+    `Reschedule peel wk ${startIdx+1} onwards.\nEnter new date for week ${startIdx+1} (YYYY-MM-DD):`,
+    state.peelSessions[startIdx].date
+  );
+  if (!newStart || !/^\d{4}-\d{2}-\d{2}$/.test(newStart)) return;
+  state.peelSessions[startIdx].date = newStart;
+  cascadePeelsFrom(startIdx);
+  showToast(`Schedule reset from week ${startIdx+1}`);
 }
 
 
@@ -1002,6 +1288,18 @@ function renderRoadmap() {
     }
   }
 
+  // Insert peel nodes from state.peelSessions
+  state.peelSessions.forEach((sess, w) => {
+    const peelElapsed = daysBetween(state.tretStartDate, sess.date);
+    const daysFromNow = daysBetween(todayKey(), sess.date);
+    const pStatus = daysFromNow < -3 ? 'done' : Math.abs(daysFromNow) <= 3 ? 'active' : 'upcoming';
+    const timing = daysFromNow > 0 ? `in ${daysFromNow}d` : daysFromNow === 0 ? 'today' : `${Math.abs(daysFromNow)}d ago`;
+    const peelDateStr = new Date(sess.date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const mins = PEEL_SCHEDULE[Math.min(w, PEEL_SCHEDULE.length - 1)];
+    const hasPdrnConflict = state.pdrnSessions.some(s => Math.abs(daysBetween(sess.date, s)) <= 3);
+    nodes.push({ type: 'peel', date: peelDateStr, timing, status: pStatus, dayOffset: peelElapsed, weekNum: w + 1, mins, hasPdrnConflict, skipped: sess.skipped });
+  });
+
   // Sort by dayOffset so everything is chronological
   nodes.sort((a, b) => a.dayOffset - b.dayOffset);
 
@@ -1034,6 +1332,33 @@ function renderRoadmap() {
             <div class="rm-change pdrn-change"><span class="rm-change-icon"></span><span>Barrier nights only pre-session</span></div>
             <div class="rm-change pdrn-change"><span class="rm-change-icon"></span><span>Resume tret day 3–5 post. Vitamin C day 5.</span></div>
           </div>
+        </div>
+      </div>`;
+    }
+
+    if (node.type === 'peel') {
+      const isActive = node.status === 'active';
+      const isDone = node.status === 'done';
+      const peelColor = 'rgba(200,232,216,0.9)';
+      const peelAccent = 'rgba(200,232,216,0.2)';
+      const skipped = node.skipped;
+      const conflicted = !skipped && node.hasPdrnConflict;
+      return `
+      <div class="roadmap-week">
+        <div class="rm-timeline">
+          <div class="rm-dot" style="background:${isDone && !skipped ? peelColor : isActive && !skipped ? peelColor : 'transparent'};border-color:${(isDone || isActive) && !skipped ? peelColor : 'var(--stone)'};${isActive && !skipped ? 'box-shadow:0 0 0 4px ' + peelAccent + ';' : ''}opacity:${skipped ? 0.3 : 1};"></div>
+          ${!isLast ? `<div class="rm-line ${isDone && !skipped ? 'done' : ''}"></div>` : ''}
+        </div>
+        <div class="rm-content" style="${skipped ? 'opacity:0.35;' : ''}">
+          ${isActive && !skipped && !conflicted ? '<span class="rm-current-badge" style="background:rgba(200,232,216,0.15);color:var(--sage);">this week</span>' : ''}
+          ${skipped ? '<span class="rm-current-badge" style="background:rgba(120,120,120,0.12);color:var(--stone);">skipped</span>' : ''}
+          ${conflicted ? '<span class="rm-current-badge" style="background:rgba(180,100,80,0.12);color:var(--clay);">⚠ PDRN conflict</span>' : ''}
+          <div class="rm-week-label" style="${isActive && !skipped ? 'color:var(--sage)' : ''}">${node.timing}</div>
+          <div class="rm-title ${isDone || skipped ? 'muted' : ''}" style="font-size:16px;">🧴 Peel wk ${node.weekNum} — ${node.date} · ${node.mins} min</div>
+          ${!skipped ? `<div class="rm-changes">
+            <div class="rm-change" style="color:var(--bark);font-size:11px;"><span class="rm-change-icon" style="background:${peelColor}"></span><span>25% mandelic acid — ${node.mins} min leave-on</span></div>
+            <div class="rm-change" style="color:var(--bark);font-size:11px;"><span class="rm-change-icon" style="background:${peelColor}"></span><span>No tret, no AHAs 2 days prior + 2 days after</span></div>
+          </div>` : ''}
         </div>
       </div>`;
     }
@@ -1096,8 +1421,9 @@ function renderHome() {
 
   const isAM = state.session === 'am';
   const pdrn = getPdrnContext();
+  const peel = getPeelContext();
 
-  // Resolve tonight type considering PDRN
+  // Resolve tonight type — PDRN > peel > normal
   let type;
   if (pdrn) {
     if (isAM) {
@@ -1111,6 +1437,16 @@ function renderHome() {
       else if (pdrn.phase === 'post_1') type = 'pdrn_day1_pm';
       else if (pdrn.phase === 'post_2') type = 'pdrn_day2';
       else if (pdrn.phase === 'recovery') type = 'pdrn_recovery';
+      else type = getTonightType();
+    }
+  } else if (peel && !peel.pdrnConflict) {
+    if (isAM) {
+      if (peel.phase === 'post_24h' || peel.phase === 'post_48h') type = 'peel_post_am';
+      else type = 'am';
+    } else {
+      if (peel.phase === 'peel_night')  type = 'peel_night';
+      else if (peel.phase === 'prep_24h' || peel.phase === 'prep_48h') type = 'peel_prep';
+      else if (peel.phase === 'post_24h') type = 'peel_post_pm';
       else type = getTonightType();
     }
   } else {
@@ -1129,6 +1465,7 @@ function renderHome() {
     pdrn_prep:'PDRN prep', pdrn_dayof_am:'PDRN day', pdrn_dayof_pm:'PDRN night',
     pdrn_day1_am:'Post-PDRN AM', pdrn_day1_pm:'Post-PDRN PM',
     pdrn_day2:'Post-PDRN day 2', pdrn_recovery:'PDRN recovery', am:'AM',
+    peel_night:'Mandelic peel', peel_prep:'Peel prep', peel_post_am:'Post-peel AM', peel_post_pm:'Post-peel PM',
   };
   badge.textContent = badgeLabels[type] || (isAM ? 'AM' : 'PM');
   // Use getActiveSteps for phase-gated AM, direct steps for everything else
@@ -1137,6 +1474,7 @@ function renderHome() {
 
   renderStabBanner();
   renderPdrnBanner();
+  renderPeelBanner();
   document.getElementById('homeChipPeriod').classList.toggle('active', !!state.todayCycle.period);
   document.getElementById('homeChipBumps').classList.toggle('active', !!state.todayCycle.bumps);
 }
@@ -1272,47 +1610,150 @@ function toggleHomeCycle(field) {
 
 // Returns PDRN context for today: null if no session nearby, or { phase, sessionDate }
 // phase: 'prep_early'(5-3d before), 'prep_stop'(2-1d), 'dayof', 'post_0', 'post_1am', 'post_1pm', 'post_2', 'post_recovery'(3-4d)
-function getPdrnContext(session) {
-  const today = todayKey();
+// Both context functions accept an optional forDate — defaults to today.
+// This lets the schedule screen compute effective types for future days.
+function getPdrnContext(forDate) {
+  const ref = forDate || todayKey();
   let closest = null, closestDiff = Infinity;
-  const sessions = session ? [session] : state.pdrnSessions;
-  for (const d of sessions) {
-    const diff = daysBetween(today, d); // positive = future
+  for (const d of state.pdrnSessions) {
+    const diff = daysBetween(ref, d);
     if (Math.abs(diff) < Math.abs(closestDiff)) { closestDiff = diff; closest = d; }
   }
-  if (!closest) return null;
+  if (!closest || closestDiff > 5 || closestDiff < -5) return null;
   const diff = closestDiff;
   const dateStr = new Date(closest + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  if (diff > 5 || diff < -5) return null;
   let phase;
-  if (diff >= 3 && diff <= 5)  phase = 'prep_early';   // 5-3 days before: heads-up, switch to barrier
-  else if (diff >= 1 && diff <= 2) phase = 'prep_stop'; // 2-1 days before: stop all actives
-  else if (diff === 0)          phase = 'dayof';
-  else if (diff === -1)         phase = 'post_1';       // day after
-  else if (diff === -2)         phase = 'post_2';       // day 2 post
-  else if (diff >= -5)          phase = 'recovery';     // days 3-5 post
+  if (diff >= 3 && diff <= 5)  phase = 'prep_early';
+  else if (diff >= 1 && diff <= 2) phase = 'prep_stop';
+  else if (diff === 0)         phase = 'dayof';
+  else if (diff === -1)        phase = 'post_1';
+  else if (diff === -2)        phase = 'post_2';
+  else if (diff >= -5)         phase = 'recovery';
   else return null;
   return { phase, diff, dateStr };
+}
+
+function getPeelContext(forDate) {
+  const ref = forDate || todayKey();
+  let closest = null, closestDiff = Infinity, closestIdx = -1;
+  state.peelSessions.forEach((sess, i) => {
+    if (sess.skipped) return;
+    const diff = daysBetween(ref, sess.date);
+    if (Math.abs(diff) < Math.abs(closestDiff) && Math.abs(diff) <= 3) {
+      closestDiff = diff; closest = sess; closestIdx = i;
+    }
+  });
+  if (!closest) return null;
+  const diff = closestDiff;
+  let phase;
+  if (diff === 2)       phase = 'prep_48h';
+  else if (diff === 1)  phase = 'prep_24h';
+  else if (diff === 0)  phase = 'peel_night';
+  else if (diff === -1) phase = 'post_24h';
+  else if (diff === -2) phase = 'post_48h';
+  else if (diff === -3) phase = 'post_72h';
+  else return null;
+  const mins = PEEL_SCHEDULE[Math.min(closestIdx, PEEL_SCHEDULE.length - 1)];
+  const dateStr = new Date(closest.date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  const pdrn = getPdrnContext(ref);
+  const pdrnConflict = !!(pdrn && ['prep_early','prep_stop','dayof'].includes(pdrn.phase));
+  return { phase, diff, weekNum: closestIdx + 1, mins, dateStr, pdrnConflict };
+}
+
+// What will actually happen on a given PM — PDRN > peel > base schedule.
+// Returns { type, label, overriddenBy, reason } where overriddenBy is null if base schedule.
+function getEffectiveNightType(dKey, baseSchedType) {
+  const pdrn = getPdrnContext(dKey);
+  if (pdrn) {
+    const map = {
+      prep_early: ['pdrn_prep',   `PDRN in ${pdrn.diff}d (${pdrn.dateStr}) — barrier only`],
+      prep_stop:  ['pdrn_prep',   `PDRN ${pdrn.diff === 1 ? 'tomorrow' : 'in ' + pdrn.diff + 'd'} (${pdrn.dateStr}) — no actives`],
+      dayof:      ['pdrn_dayof_pm', `PDRN today (${pdrn.dateStr}) — nothing tonight`],
+      post_1:     ['pdrn_day1_pm', `Day 1 post-PDRN — Cicalfate only`],
+      post_2:     ['pdrn_day2',    `Day 2 post-PDRN — gentle resume`],
+      recovery:   ['pdrn_recovery', `PDRN recovery — barrier nights`],
+    };
+    const [type, reason] = map[pdrn.phase] || [];
+    if (type) return { type, label: ROUTINES[type]?.label || type, overriddenBy: 'pdrn', reason };
+  }
+  const peel = getPeelContext(dKey);
+  if (peel && !peel.pdrnConflict) {
+    const map = {
+      prep_48h:  ['peel_prep',     `Peel in 2 days (wk ${peel.weekNum}) — no actives tonight`],
+      prep_24h:  ['peel_prep',     `Peel tomorrow (wk ${peel.weekNum}) — barrier only, no tret`],
+      peel_night:['peel_night',    `Peel tonight · wk ${peel.weekNum} · ${peel.mins} min`],
+      post_24h:  ['peel_post_pm',  `Post-peel night — barrier only`],
+    };
+    const [type, reason] = map[peel.phase] || [];
+    if (type) return { type, label: ROUTINES[type]?.label || type, overriddenBy: 'peel', reason };
+  }
+  return { type: baseSchedType, label: ROUTINES[baseSchedType]?.label || baseSchedType, overriddenBy: null, reason: null };
+}
+
+function renderPeelBanner() {
+  const banner = document.getElementById('peelBanner');
+  const label = document.getElementById('peelBannerLabel');
+  const text = document.getElementById('peelBannerText');
+  const peel = getPeelContext();
+  if (!peel) { banner.style.display = 'none'; return; }
+  let lbl = '', msg = '';
+  if (peel.pdrnConflict) {
+    lbl = '⚠ Peel skipped — PDRN week';
+    msg = 'Skip mandelic peel this week. PDRN session approaching — no AHAs in this window.';
+  } else if (peel.phase === 'prep_48h') {
+    lbl = 'Peel in 2 days — stop actives';
+    msg = `Mandelic peel Sunday (${peel.dateStr}) — stop tret and AHAs tonight. Barrier nights only until after the peel.`;
+  } else if (peel.phase === 'prep_24h') {
+    lbl = '⚠ Peel tomorrow — skin prep';
+    msg = `Peel tomorrow (${peel.dateStr}). No actives today. Ensure skin is not already irritated or compromised.`;
+  } else if (peel.phase === 'peel_night') {
+    lbl = `🧪 Peel tonight — week ${peel.weekNum}, ${peel.mins} min`;
+    msg = 'Cleanse + dry completely before applying. Use the in-app timer. CeraVe PM only after. No tret tomorrow.';
+  } else if (peel.phase === 'post_24h') {
+    lbl = 'Post-peel day 1 — boring routine';
+    msg = 'Gentle cleanser, CeraVe PM, SPF only. No urea, no actives. Skin is recovering.';
+  } else if (peel.phase === 'post_48h') {
+    lbl = 'Post-peel day 2 — slowly resume';
+    msg = 'Can add 5% urea and vitamin C if skin feels completely normal. No tret or 10% urea yet.';
+  } else if (peel.phase === 'post_72h') {
+    lbl = 'Post-peel day 3 — tret window';
+    msg = 'Can resume 10% urea and tret only if zero flaking, pinkness, or tightness. Any sensitivity? Wait another day.';
+  }
+  if (!lbl) { banner.style.display = 'none'; return; }
+  banner.style.display = 'block';
+  label.textContent = lbl;
+  text.textContent = msg;
 }
 
 function startRoutine() {
   const isAM = state.session === 'am';
   const pdrn = getPdrnContext();
+  const peel = getPeelContext();
 
-  // Resolve type — PDRN overrides normal schedule
+  // Resolve type — PDRN > peel > normal
   let resolvedType;
   if (pdrn) {
     if (isAM) {
       if (pdrn.phase === 'dayof')     resolvedType = 'pdrn_dayof_am';
       else if (pdrn.phase === 'post_1') resolvedType = 'pdrn_day1_am';
       else if (pdrn.phase === 'post_2') resolvedType = 'pdrn_day2';
-      else resolvedType = 'am'; // prep days: normal AM
+      else resolvedType = 'am';
     } else {
       if (pdrn.phase === 'prep_early' || pdrn.phase === 'prep_stop') resolvedType = 'pdrn_prep';
       else if (pdrn.phase === 'dayof') resolvedType = 'pdrn_dayof_pm';
       else if (pdrn.phase === 'post_1') resolvedType = 'pdrn_day1_pm';
       else if (pdrn.phase === 'post_2') resolvedType = 'pdrn_day2';
       else if (pdrn.phase === 'recovery') resolvedType = 'pdrn_recovery';
+      else resolvedType = getTonightType();
+    }
+  } else if (peel && !peel.pdrnConflict) {
+    if (isAM) {
+      if (peel.phase === 'post_24h' || peel.phase === 'post_48h') resolvedType = 'peel_post_am';
+      else resolvedType = 'am';
+    } else {
+      if (peel.phase === 'peel_night')  resolvedType = 'peel_night';
+      else if (peel.phase === 'prep_24h' || peel.phase === 'prep_48h') resolvedType = 'peel_prep';
+      else if (peel.phase === 'post_24h') resolvedType = 'peel_post_pm';
       else resolvedType = getTonightType();
     }
   } else {
@@ -1373,10 +1814,36 @@ function startRoutine() {
     pdrnRoutineNote.style.display = 'none';
   }
 
-  // Mark-all banner only for AM non-PDRN
-  document.getElementById('markAllBanner').style.display = (isAM && !resolvedType.startsWith('pdrn')) ? 'block' : 'none';
+  // Mark-all banner only for AM non-PDRN non-peel
+  document.getElementById('markAllBanner').style.display = (isAM && !resolvedType.startsWith('pdrn') && !resolvedType.startsWith('peel')) ? 'block' : 'none';
   const showDapsone = ['tret','azel'].includes(resolvedType);
   document.getElementById('dapsoneRow').style.display = showDapsone ? 'block' : 'none';
+
+  // Peel timer — only for peel_night
+  const peelTimerSection = document.getElementById('peelTimerSection');
+  if (resolvedType === 'peel_night' && peel) {
+    document.getElementById('peelTimerLabel').textContent = `Week ${peel.weekNum} \u2014 ${peel.mins} min`;
+    document.getElementById('peelTimerDisplay').textContent = `${peel.mins}:00`;
+    document.getElementById('peelTimerBtn').textContent = 'Start timer';
+    document.getElementById('peelTimerBtn').className = 'peel-timer-btn';
+    document.getElementById('peelTimerDisplay').className = 'peel-timer-display';
+    peelTimerSection.style.display = 'block';
+    peelTimerRemaining = peel.mins * 60;
+    peelTimerRunning = false;
+    if (peelTimerInterval) { clearInterval(peelTimerInterval); peelTimerInterval = null; }
+  } else {
+    peelTimerSection.style.display = 'none';
+    if (peelTimerInterval) { clearInterval(peelTimerInterval); peelTimerInterval = null; }
+  }
+
+  // Add peel context to session label
+  if (peel && !peel.pdrnConflict) {
+    const existing = document.getElementById('routineSessionLabel').textContent;
+    if (!existing.includes('Peel')) {
+      document.getElementById('routineSessionLabel').textContent = existing + ` \u00b7 Peel wk ${peel.weekNum} (${peel.dateStr})`;
+    }
+  }
+
   renderSteps();
   showScreen('routine');
 }
@@ -1501,9 +1968,17 @@ function markComplete() {
   const done = Object.values(state.checkedSteps).filter(Boolean).length;
   // For PM, require all steps checked
   if (state.currentType !== 'am' && done < steps.length) { showToast('Check off each step first ✓'); return; }
+  // Warn if tret/lactic tonight and peel is tomorrow
+  if (state.currentType === 'tret' || state.currentType === 'tret_direct' || state.currentType === 'lactic') {
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowKey = dateKey(tomorrow);
+    const peelTomorrow = state.peelSessions.find(s => !s.skipped && s.date === tomorrowKey);
+    if (peelTomorrow) {
+      showToast('⚠ Peel is tomorrow — consider skipping actives tonight');
+    }
+  }
   const key = todayKey();
   if (!state.completedDays[key]) state.completedDays[key] = {};
-  // Log which steps were actually done (unchecked = skipped)
   const completedStepNames = steps.filter((_, i) => state.checkedSteps[i] !== false).map(s => s.name);
   const skippedStepNames = steps.filter((_, i) => state.checkedSteps[i] === false).map(s => s.name);
   state.completedDays[key][state.session] = {
@@ -1527,19 +2002,43 @@ function renderSchedule() {
     const isToday = i === todayIdx;
     const pmDone = !!state.completedDays[dKey]?.pm;
     const amDone = !!state.completedDays[dKey]?.am;
-    return `
-    <div class="day-row">
-      <div class="day-name ${isToday ? 'today' : ''}">${isToday ? '→ ' : ''}${day}</div>
-      <select class="night-select" onchange="updateSchedule(${i}, this.value)">
-        ${['tret','azel','barrier','lactic'].map(t => `<option value="${t}" ${state.schedule[i]===t?'selected':''}>${ROUTINES[t].label}</option>`).join('')}
-      </select>
+    const baseType = state.schedule[i] || 'barrier';
+    const eff = getEffectiveNightType(dKey, baseType);
+    const isOverridden = eff.overriddenBy !== null;
+
+    const rightHtml = `
       <div class="day-right">
         <div class="done-dots">
           <span class="done-dot ${amDone ? 'lit' : ''}">AM${amDone ? ' ✓' : ''}</span>
           <span class="done-dot ${pmDone ? 'lit' : ''}">PM${pmDone ? ' ✓' : ''}</span>
         </div>
         <button class="day-done-badge ${pmDone ? 'pm-done' : ''}" onclick="toggleDayDone('${dKey}', ${i})">${pmDone ? '✓' : ''}</button>
-      </div>
+      </div>`;
+
+    if (isOverridden) {
+      const baseLabel = ROUTINES[baseType]?.label || baseType;
+      const badgeClass = eff.overriddenBy === 'peel' ? 'peel' : 'pdrn';
+      const badgeText = eff.overriddenBy === 'peel' ? 'Peel' : 'PDRN';
+      return `
+      <div class="day-row overridden-${eff.overriddenBy}">
+        <div class="day-name ${isToday ? 'today' : ''}">${isToday ? '→ ' : ''}${day}</div>
+        <div class="sched-override-cell">
+          <div><span class="sched-override-badge ${badgeClass}">${badgeText}</span></div>
+          <div class="sched-override-name">${eff.label}</div>
+          <div class="sched-override-reason">${eff.reason}</div>
+          ${eff.type !== baseType ? `<div class="sched-override-base">base: ${baseLabel}</div>` : ''}
+        </div>
+        ${rightHtml}
+      </div>`;
+    }
+
+    return `
+    <div class="day-row">
+      <div class="day-name ${isToday ? 'today' : ''}">${isToday ? '→ ' : ''}${day}</div>
+      <select class="night-select" onchange="updateSchedule(${i}, this.value)">
+        ${['tret','azel','barrier','lactic'].map(t => `<option value="${t}" ${baseType===t?'selected':''}>${ROUTINES[t].label}</option>`).join('')}
+      </select>
+      ${rightHtml}
     </div>`;
   }).join('');
 }
@@ -1550,15 +2049,20 @@ function toggleDayDone(dKey, schedIdx) {
     delete state.completedDays[dKey].pm;
     showToast('PM removed');
   } else {
-    const type = state.schedule[schedIdx] || 'barrier';
-    state.completedDays[dKey].pm = { type, label: ROUTINES[type].label, steps: ROUTINES[type].steps.map(s => s.name), time: '—' };
+    const eff = getEffectiveNightType(dKey, state.schedule[schedIdx] || 'barrier');
+    state.completedDays[dKey].pm = { type: eff.type, label: eff.label, steps: (ROUTINES[eff.type]?.steps || []).map(s => s.name), time: '—' };
     showToast('PM logged ✓');
   }
   persist();
   renderSchedule();
 }
 
-function updateSchedule(idx, val) { state.schedule[idx] = val; persist(); renderHome(); }
+function updateSchedule(idx, val) {
+  state.schedule[idx] = val;
+  persist();
+  renderSchedule();
+  renderHome();
+}
 
 // LOG
 function renderLog() {
@@ -1653,6 +2157,55 @@ renderHome();
 document.getElementById('nav-home').classList.add('active');
 
 // PDRN interactive checklist
+// PEEL TIMER
+let peelTimerInterval = null;
+let peelTimerRemaining = 0;
+let peelTimerRunning = false;
+
+function togglePeelTimer() {
+  const btn = document.getElementById('peelTimerBtn');
+  const display = document.getElementById('peelTimerDisplay');
+  if (display.classList.contains('done')) return; // already finished — nothing to do
+
+  if (peelTimerRunning) {
+    // Pause
+    clearInterval(peelTimerInterval);
+    peelTimerInterval = null;
+    peelTimerRunning = false;
+    btn.textContent = 'Resume timer';
+    btn.className = 'peel-timer-btn';
+  } else {
+    // Start / resume
+    peelTimerRunning = true;
+    btn.className = 'peel-timer-btn running';
+    btn.textContent = 'Pause';
+    peelTimerInterval = setInterval(() => {
+      peelTimerRemaining--;
+      if (peelTimerRemaining <= 0) {
+        peelTimerRemaining = 0;
+        clearInterval(peelTimerInterval);
+        peelTimerInterval = null;
+        peelTimerRunning = false;
+        display.textContent = 'Rinse now!';
+        display.className = 'peel-timer-display done';
+        btn.textContent = 'Time to rinse!';
+        btn.className = 'peel-timer-btn finished';
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+        showToast('Rinse now — cool water for 1–2 min');
+      } else {
+        updatePeelTimerDisplay();
+      }
+    }, 1000);
+  }
+}
+
+function updatePeelTimerDisplay() {
+  const mins = Math.floor(peelTimerRemaining / 60);
+  const secs = peelTimerRemaining % 60;
+  document.getElementById('peelTimerDisplay').textContent =
+    `${mins}:${String(secs).padStart(2, '0')}`;
+}
+
 function togglePdrnCheck(el) {
   el.classList.toggle('checked');
   savePdrnChecks();
